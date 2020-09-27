@@ -7,7 +7,7 @@ public class Node {
 
     private String op;
     private Value value;
-    private List<Node> nodes = new ArrayList<>();
+    private List<Node> nodes;
 
     public Node() {
     }
@@ -33,6 +33,10 @@ public class Node {
     }
 
     public List<Node> getNodes() {
+        if(nodes == null) {
+            nodes = new ArrayList<>();
+        }
+
         return nodes;
     }
 

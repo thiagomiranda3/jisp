@@ -2,7 +2,6 @@ package br.com.tommiranda;
 
 import br.com.tommiranda.ast.ASTGenerator;
 import br.com.tommiranda.ast.Node;
-import br.com.tommiranda.utils.Util;
 import com.google.gson.Gson;
 
 import java.util.Scanner;
@@ -18,9 +17,9 @@ public class Main {
 
         var generator = new ASTGenerator();
 
-        Node node = generator.createNode(exp);
+        Node node = generator.initialeNodes(exp);
 
-        System.out.println(gson.toJson(node));;
+        System.out.println(gson.toJson(node));
     }
 
     public static long sum(long... valores) {
