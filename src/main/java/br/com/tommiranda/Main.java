@@ -17,7 +17,7 @@ public class Main {
 
         var generator = new ASTGenerator();
 
-        Node node = generator.initialeNodes(exp);
+        Node node = generator.createAST(exp);
 
         System.out.println(gson.toJson(node));
     }

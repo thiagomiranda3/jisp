@@ -11,7 +11,7 @@ public class ASTGenerator {
 
     private int countExp = 0;
 
-    public Node initialeNodes(String exp) {
+    public Node createAST(String exp) {
         if (Util.isNullOrEmpty(exp)) {
             System.out.println((String) null);
         }
@@ -33,27 +33,26 @@ public class ASTGenerator {
     // (* 2 3 (- 5 2))
     private Node createNode(String exp) {
         while (!isEOF(exp)) {
-            Node newNode = new Node();
+            Node node = new Node();
 
             String op = getOp(exp);
-            newNode.setOp(op);
+            node.setOp(op);
 
             char c = exp.charAt(countExp);
 
             if (c == ')') {
-                return newNode;
+                return node;
             }
 
             countExp++;
 
             while (!isEOF(exp)) {
-
-                newNode.getNodes().add(getValue(exp, newNode));
+                node.getNodes().add(getValue(exp));
 
                 c = exp.charAt(countExp);
 
                 if (c == ')') {
-                    return newNode;
+                    return node;
                 }
 
                 countExp++;
@@ -85,9 +84,7 @@ public class ASTGenerator {
         throw new IllegalStateException("A ) is missing");
     }
 
-    // (* 2 3 (- 5 2))
-    // (/ (* 3 2) (- 10 5))
-    private Node getValue(String exp, Node parent) {
+    private Node getValue(String exp) {
         StringBuilder value = new StringBuilder();
 
         while (!isEOF(exp)) {
