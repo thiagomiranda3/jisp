@@ -65,10 +65,12 @@ public class ASTGenerator {
     private String getOp(String exp) {
         StringBuilder op = new StringBuilder();
 
+        ignoreSpaces(exp);
+
         while (!isEOF(exp)) {
             char c = exp.charAt(countExp);
 
-            if (isSpaces(exp) || c == ')') {
+            if (ignoreSpaces(exp) || c == ')') {
                 return op.toString();
             }
 
@@ -101,7 +103,7 @@ public class ASTGenerator {
 
             c = exp.charAt(countExp);
 
-            if (isSpaces(exp) || c == ')') {
+            if (ignoreSpaces(exp) || c == ')') {
                 String strValue = value.toString();
 
                 if (NumberUtils.isCreatable(strValue)) {
@@ -122,7 +124,7 @@ public class ASTGenerator {
         return exp.length() == countExp;
     }
 
-    public boolean isSpaces(String exp) {
+    public boolean ignoreSpaces(String exp) {
         char c = exp.charAt(countExp);
 
         if(c != ' ' && c != '\t') {

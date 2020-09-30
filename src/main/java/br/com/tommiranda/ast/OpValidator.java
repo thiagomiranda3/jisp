@@ -5,13 +5,13 @@ import org.eclipse.collections.impl.factory.primitive.CharSets;
 
 public class OpValidator {
 
-   // private static final MutableCharSet validChars = createSet();
+   private static final MutableCharSet validChars = createValidSet();
 
     public static boolean isValid(char c) {
-        return true; //validChars.contains(c);
+        return validChars.contains(c);
     }
 
-    private static MutableCharSet createSet() {
+    private static MutableCharSet createValidSet() {
         return CharSets.mutable.with("abcdefghijklmnopqrstuvwyxzABCDEFGHIJKLMNOPQRSTUVWYXZ123456789!@#$%&*-_+=.<>/|".toCharArray());
     }
 }
