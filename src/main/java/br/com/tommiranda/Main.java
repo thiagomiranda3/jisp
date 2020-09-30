@@ -13,13 +13,20 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String exp = scanner.nextLine();
+        while(true) {
+            try {
+                System.out.print(":==> ");
+                String exp = scanner.nextLine();
 
-        var generator = new ASTGenerator();
+                var generator = new ASTGenerator();
 
-        Node node = generator.createAST(exp);
+                Node node = generator.createAST(exp);
 
-        System.out.println(gson.toJson(node));
+                System.out.println(gson.toJson(node));
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
     }
 
     public static long sum(long... valores) {

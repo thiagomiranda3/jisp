@@ -35,8 +35,7 @@ public class ASTGenerator {
         while (!isEOF(exp)) {
             Node node = new Node();
 
-            String op = getOp(exp);
-            node.setOp(op);
+            node.setOp(getOp(exp));
 
             char c = exp.charAt(countExp);
 
@@ -69,7 +68,7 @@ public class ASTGenerator {
         while (!isEOF(exp)) {
             char c = exp.charAt(countExp);
 
-            if (c == ' ' || c == ')') {
+            if (isSpaces(exp) || c == ')') {
                 return op.toString();
             }
 
@@ -102,7 +101,7 @@ public class ASTGenerator {
 
             c = exp.charAt(countExp);
 
-            if (c == ' ' || c == ')') {
+            if (isSpaces(exp) || c == ')') {
                 String strValue = value.toString();
 
                 if (NumberUtils.isCreatable(strValue)) {
@@ -121,5 +120,21 @@ public class ASTGenerator {
 
     private boolean isEOF(String exp) {
         return exp.length() == countExp;
+    }
+
+    public boolean isSpaces(String exp) {
+        char c = exp.charAt(countExp);
+
+        if(c != ' ' && c != '\t') {
+            return false;
+        }
+
+        while(!isEOF(exp)) {
+            c = exp.charAt(++countExp);
+
+            if(c != ' ' && c != '\t') return true;
+        }
+
+        throw new IllegalStateException("A ) is missing");
     }
 }
