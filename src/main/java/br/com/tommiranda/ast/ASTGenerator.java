@@ -4,25 +4,41 @@ import br.com.tommiranda.utils.Util;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.math.BigDecimal;
+import java.util.Scanner;
 
 public class ASTGenerator {
 
     private Node root;
+    private String code;
+    private Scanner scanner = new Scanner(System.in);
 
     private int countExp = 0;
 
-    public Node createAST(String exp) {
-        if (Util.isNullOrEmpty(exp)) {
+    public void waitNewCode() {
+        code = scanner.nextLine();
+
+        code = " " + code;
+
+        countExp = 0;
+    }
+
+    public Node createAST() {
+        waitNewCode();
+
+        if (Util.isNullOrEmpty(code)) {
             System.out.println((String) null);
         }
 
-        char firstChar = exp.charAt(countExp++);
+        ignoreSpaces();
+
+        char firstChar = code.charAt(countExp++);
 
         if (firstChar != '(') {
             throw new IllegalStateException("Expression need to be initialized with (");
         }
 
-        root = createNode(exp);
+        root = createNode();
+
         return root;
     }
 
@@ -31,46 +47,47 @@ public class ASTGenerator {
     // (+ 1 2 3 4)
     // (/ (* 3 2) (- 10 5))
     // (* 2 3 (- 5 2))
-    private Node createNode(String exp) {
-        while (!isEOF(exp)) {
+    private Node createNode() {
+        while (true) {
+            continueIfEOS();
+
             Node node = new Node();
 
-            node.setOp(getOp(exp));
+            node.setOp(getOp());
 
-            char c = exp.charAt(countExp);
+            char c = code.charAt(countExp);
 
             if (c == ')') {
                 return node;
             }
 
-            countExp++;
+            while (true) {
+                ignoreSpaces();
+                continueIfEOS();
 
-            while (!isEOF(exp)) {
-                node.getNodes().add(getValue(exp));
-
-                c = exp.charAt(countExp);
+                c = code.charAt(countExp);
 
                 if (c == ')') {
                     return node;
                 }
 
-                countExp++;
+                node.getNodes().add(getValue());
             }
         }
-
-        throw new IllegalStateException("A ) is missing");
     }
 
     // (+ 1 2 3 4)
-    private String getOp(String exp) {
+    private String getOp() {
         StringBuilder op = new StringBuilder();
 
-        ignoreSpaces(exp);
+        ignoreSpaces();
 
-        while (!isEOF(exp)) {
-            char c = exp.charAt(countExp);
+        while (true) {
+            continueIfEOS();
 
-            if (ignoreSpaces(exp) || c == ')') {
+            char c = code.charAt(countExp);
+
+            if (ignoreSpaces() || c == ')') {
                 return op.toString();
             }
 
@@ -81,29 +98,29 @@ public class ASTGenerator {
             op.append(c);
             countExp++;
         }
-
-        throw new IllegalStateException("A ) is missing");
     }
 
-    private Node getValue(String exp) {
+    private Node getValue() {
         StringBuilder value = new StringBuilder();
 
-        while (!isEOF(exp)) {
-            char c = exp.charAt(countExp);
+        while (true) {
+            continueIfEOS();
+
+            char c = code.charAt(countExp);
 
             if (c == '(') {
                 countExp++;
 
-                Node node = createNode(exp);
+                Node node = createNode();
 
                 countExp++;
 
                 return node;
             }
 
-            c = exp.charAt(countExp);
+            c = code.charAt(countExp);
 
-            if (ignoreSpaces(exp) || c == ')') {
+            if (ignoreSpaces() || c == ')') {
                 String strValue = value.toString();
 
                 if (NumberUtils.isCreatable(strValue)) {
@@ -116,27 +133,31 @@ public class ASTGenerator {
             value.append(c);
             countExp++;
         }
-
-        throw new IllegalStateException("A ) is missing");
     }
 
-    private boolean isEOF(String exp) {
-        return exp.length() == countExp;
-    }
+    public boolean ignoreSpaces() {
+        char c = code.charAt(countExp);
 
-    public boolean ignoreSpaces(String exp) {
-        char c = exp.charAt(countExp);
-
-        if(c != ' ' && c != '\t') {
+        if (c != ' ' && c != '\t' && c != '\n') {
             return false;
         }
 
-        while(!isEOF(exp)) {
-            c = exp.charAt(++countExp);
+        while (true) {
+            continueIfEOS();
 
-            if(c != ' ' && c != '\t') return true;
+            c = code.charAt(countExp);
+
+            if (c != ' ' && c != '\t' && c != '\n') {
+                return true;
+            }
+
+            countExp++;
         }
+    }
 
-        throw new IllegalStateException("A ) is missing");
+    private void continueIfEOS() {
+        if (countExp >= code.length()) {
+            waitNewCode();
+        }
     }
 }
