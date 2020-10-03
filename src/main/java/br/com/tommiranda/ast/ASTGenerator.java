@@ -136,6 +136,7 @@ public class ASTGenerator {
     }
 
     public boolean ignoreSpaces() {
+        continueIfEOS();
         char c = code.charAt(countExp);
 
         if (c != ' ' && c != '\t' && c != '\n') {
