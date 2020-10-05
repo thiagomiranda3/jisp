@@ -17,7 +17,7 @@ public class ASTGenerator {
     public void waitNewCode() {
         code = scanner.nextLine();
 
-        code = " " + code;
+        code = "\n" + code;
 
         countExp = 0;
     }
@@ -49,7 +49,7 @@ public class ASTGenerator {
     // (* 2 3 (- 5 2))
     private Node createNode() {
         while (true) {
-            continueIfEOS();
+            continueIfEOF();
 
             Node node = new Node();
 
@@ -63,7 +63,7 @@ public class ASTGenerator {
 
             while (true) {
                 ignoreSpaces();
-                continueIfEOS();
+                continueIfEOF();
 
                 c = code.charAt(countExp);
 
@@ -83,7 +83,7 @@ public class ASTGenerator {
         ignoreSpaces();
 
         while (true) {
-            continueIfEOS();
+            continueIfEOF();
 
             char c = code.charAt(countExp);
 
@@ -100,11 +100,12 @@ public class ASTGenerator {
         }
     }
 
+    // (+ 1 2)
     private Node getValue() {
         StringBuilder value = new StringBuilder();
 
         while (true) {
-            continueIfEOS();
+            continueIfEOF();
 
             char c = code.charAt(countExp);
 
@@ -130,13 +131,43 @@ public class ASTGenerator {
                 return new Node(new Value(strValue));
             }
 
+            if (isQuote()) {
+                String strValue = getStringValue();
+
+                return new Node(new Value(strValue));
+            }
+
             value.append(c);
             countExp++;
         }
     }
 
+    private String getStringValue() {
+        StringBuilder value = new StringBuilder();
+
+        if(!isQuote()) {
+            throw new IllegalArgumentException("Not a valid string");
+        }
+
+        countExp++;
+        while (true) {
+            continueIfEOF();
+            char c = code.charAt(countExp);
+
+            if (c == '"') {
+                countExp++;
+                break;
+            }
+
+            value.append(c);
+            countExp++;
+        }
+
+        return value.toString();
+    }
+
     public boolean ignoreSpaces() {
-        continueIfEOS();
+        continueIfEOF();
         char c = code.charAt(countExp);
 
         if (c != ' ' && c != '\t' && c != '\n') {
@@ -144,7 +175,7 @@ public class ASTGenerator {
         }
 
         while (true) {
-            continueIfEOS();
+            continueIfEOF();
 
             c = code.charAt(countExp);
 
@@ -156,9 +187,15 @@ public class ASTGenerator {
         }
     }
 
-    private void continueIfEOS() {
+    private void continueIfEOF() {
         if (countExp >= code.length()) {
             waitNewCode();
         }
+    }
+
+    private boolean isQuote() {
+        char c = code.charAt(countExp);
+
+        return c == '"' || c == '\'';
     }
 }
