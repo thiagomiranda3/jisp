@@ -1,7 +1,7 @@
 package br.com.tommiranda.eval;
 
 import br.com.tommiranda.ast.Value;
-import br.com.tommiranda.core.MathFunctions;
+import br.com.tommiranda.lang.MathFunctions;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
