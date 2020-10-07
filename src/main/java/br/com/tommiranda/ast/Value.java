@@ -25,7 +25,7 @@ public class Value {
     }
 
     public BigDecimal getAsNumber() {
-        if(type != TypeValue.Number) {
+        if (type != TypeValue.Number) {
             throw new IllegalArgumentException("This value is of type" + TypeValue.Number.name());
         }
 
@@ -33,7 +33,7 @@ public class Value {
     }
 
     public String getAsString() {
-        if(type != TypeValue.String) {
+        if (type != TypeValue.String) {
             throw new IllegalArgumentException("This value is of type" + TypeValue.String.name());
         }
 
@@ -41,7 +41,7 @@ public class Value {
     }
 
     public Boolean getAsBoolean() {
-        if(type != TypeValue.Boolean) {
+        if (type != TypeValue.Boolean) {
             throw new IllegalArgumentException("This value is of type" + TypeValue.Boolean.name());
         }
 
@@ -50,6 +50,17 @@ public class Value {
 
     public TypeValue getType() {
         return type;
+    }
+
+    @Override
+    public String toString() {
+        return String.valueOf(
+                switch (getType()) {
+                    case Boolean -> getAsBoolean();
+                    case String -> getAsString();
+                    case Number -> getAsNumber();
+                }
+        );
     }
 
     public enum TypeValue {

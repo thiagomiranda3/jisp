@@ -24,16 +24,16 @@ public class Node {
         this.op = op;
     }
 
-    public Value getResult() {
+    public Value getValue() {
         return value;
     }
 
-    public void setResult(Value value) {
+    public void setValue(Value value) {
         this.value = value;
     }
 
     public List<Node> getNodes() {
-        if(nodes == null) {
+        if (nodes == null) {
             nodes = new ArrayList<>();
         }
 
@@ -42,5 +42,11 @@ public class Node {
 
     public void setNodes(List<Node> nodes) {
         this.nodes = nodes;
+    }
+
+    public Value[] getChildValues() {
+        return getNodes().stream()
+                         .map(Node::getValue)
+                         .toArray(Value[]::new);
     }
 }
