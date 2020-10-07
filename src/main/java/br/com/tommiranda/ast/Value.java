@@ -26,7 +26,7 @@ public class Value {
 
     public BigDecimal getAsNumber() {
         if (type != TypeValue.Number) {
-            throw new IllegalArgumentException("This value is of type" + TypeValue.Number.name());
+            throw new IllegalArgumentException("This value is of type " + TypeValue.Number.name());
         }
 
         return bigValue;
@@ -34,7 +34,7 @@ public class Value {
 
     public String getAsString() {
         if (type != TypeValue.String) {
-            throw new IllegalArgumentException("This value is of type" + TypeValue.String.name());
+            throw new IllegalArgumentException("This value is of type " + TypeValue.String.name());
         }
 
         return stringValue;
@@ -42,7 +42,7 @@ public class Value {
 
     public Boolean getAsBoolean() {
         if (type != TypeValue.Boolean) {
-            throw new IllegalArgumentException("This value is of type" + TypeValue.Boolean.name());
+            throw new IllegalArgumentException("This value is of type " + TypeValue.Boolean.name());
         }
 
         return boolValue;

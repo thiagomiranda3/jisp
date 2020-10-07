@@ -1,6 +1,7 @@
 package br.com.tommiranda.lang;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
@@ -26,7 +27,7 @@ public final class MathFunctions {
 
     public static BigDecimal divide(BigDecimal... numbers) {
         return Arrays.stream(numbers)
-                     .reduce(BigDecimal::divide)
+                     .reduce((a, b) -> a.divide(b, 8, RoundingMode.HALF_EVEN))
                      .orElseThrow(() -> new NoSuchElementException("No params passed to / operator"));
     }
 
