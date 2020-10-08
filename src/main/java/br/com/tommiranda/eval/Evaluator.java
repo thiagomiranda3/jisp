@@ -6,13 +6,13 @@ import br.com.tommiranda.utils.Util;
 
 public class Evaluator {
 
-    public Value evaluateTree(Node node) throws NoSuchMethodException {
+    public Value evaluateTree(Node node) throws Exception {
         for (Node child : Util.safeList(node.getNodes())) {
             evaluateTree(child);
         }
 
         if (Util.stringOK(node.getOp())) {
-            Func func = MappedFunctions.getFunc(node.getOp());
+            Func func = GlobalFunctions.getFunc(node.getOp());
 
             Value value = func.exec(node.getChildValues());
 

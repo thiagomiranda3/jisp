@@ -2,6 +2,7 @@ package br.com.tommiranda.ast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Node {
 
@@ -44,9 +45,9 @@ public class Node {
         this.nodes = nodes;
     }
 
-    public Value[] getChildValues() {
+    public List<Value> getChildValues() {
         return getNodes().stream()
                          .map(Node::getValue)
-                         .toArray(Value[]::new);
+                         .collect(Collectors.toList());
     }
 }
