@@ -13,6 +13,11 @@ public class Node {
     public Node() {
     }
 
+    public Node(String op, Object value) {
+        this.op = op;
+        this.value = value;
+    }
+
     public Node(Object value) {
         this.value = value;
     }
