@@ -1,4 +1,6 @@
-package br.com.tommiranda.lang;
+package br.com.tommiranda.lang.functions;
+
+import br.com.tommiranda.lang.GlobalFunction;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;

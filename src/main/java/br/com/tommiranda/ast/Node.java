@@ -1,6 +1,6 @@
 package br.com.tommiranda.ast;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +35,7 @@ public class Node {
 
     public List<Node> getNodes() {
         if (nodes == null) {
-            nodes = new ArrayList<>();
+            nodes = new LinkedList<>();
         }
 
         return nodes;
@@ -52,6 +52,6 @@ public class Node {
     }
 
     public List<Node> getChildNodes() {
-        return new ArrayList<>(getNodes());
+        return new LinkedList<>(getNodes());
     }
 }

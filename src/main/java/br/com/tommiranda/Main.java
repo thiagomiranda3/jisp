@@ -3,6 +3,7 @@ package br.com.tommiranda;
 import br.com.tommiranda.ast.ASTGenerator;
 import br.com.tommiranda.ast.Node;
 import br.com.tommiranda.eval.Evaluator;
+import br.com.tommiranda.eval.Transformer;
 import com.google.gson.Gson;
 
 public class Main {
@@ -12,11 +13,13 @@ public class Main {
     public static void main(String[] args) {
         while (true) {
             try {
-                System.out.print("\nuser==> ");
+                System.out.print("user==> ");
 
                 Node node = new ASTGenerator().createAST();
 
                 //System.out.println("AST: " + gson.toJson(node));
+
+                node = new Transformer().transformTree(node);
 
                 Object value = new Evaluator().evaluateTree(node);
 
