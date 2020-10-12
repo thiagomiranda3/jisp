@@ -16,6 +16,7 @@ public class Evaluator {
 
             Value value = func.exec(node.getChildValues());
 
+            node.setOp(null);
             node.setNodes(null);
             node.setValue(value);
         }
