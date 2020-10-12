@@ -125,16 +125,16 @@ public class ASTGenerator {
                 String strValue = value.toString();
 
                 if (NumberUtils.isCreatable(strValue)) {
-                    return new Node(new Value(new BigDecimal(strValue)));
+                    return new Node(new BigDecimal(strValue));
                 }
 
-                return new Node(new Value(strValue));
+                return new Node(strValue);
             }
 
             if (isQuote()) {
                 String strValue = getStringValue();
 
-                return new Node(new Value(strValue));
+                return new Node(strValue);
             }
 
             value.append(c);
@@ -145,7 +145,7 @@ public class ASTGenerator {
     private String getStringValue() {
         StringBuilder value = new StringBuilder();
 
-        if(!isQuote()) {
+        if (!isQuote()) {
             throw new IllegalArgumentException("Not a valid string");
         }
 

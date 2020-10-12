@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 public class Node {
 
     private String op;
-    private Value value;
+    private Object value;
     private List<Node> nodes;
 
     public Node() {
     }
 
-    public Node(Value value) {
+    public Node(Object value) {
         this.value = value;
     }
 
@@ -25,11 +25,11 @@ public class Node {
         this.op = op;
     }
 
-    public Value getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(Value value) {
+    public void setValue(Object value) {
         this.value = value;
     }
 
@@ -45,9 +45,13 @@ public class Node {
         this.nodes = nodes;
     }
 
-    public List<Value> getChildValues() {
+    public List<Object> getChildValues() {
         return getNodes().stream()
                          .map(Node::getValue)
                          .collect(Collectors.toList());
+    }
+
+    public List<Node> getChildNodes() {
+        return new ArrayList<>(getNodes());
     }
 }

@@ -1,6 +1,5 @@
 package br.com.tommiranda.eval;
 
-import br.com.tommiranda.ast.Value;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.Util;
 import org.reflections.Reflections;
@@ -15,7 +14,7 @@ public final class GlobalFunctions {
 
     private static final Map<String, Func> mapFunc = createMap();
 
-    private static <T> Map<String, Func> createMap() {
+    private static Map<String, Func> createMap() {
         Map<String, Func> mapFunc = new HashMap<>();
 
         Reflections reflections = new Reflections("br.com.tommiranda.lang", new MethodAnnotationsScanner());
@@ -29,7 +28,7 @@ public final class GlobalFunctions {
 
             mapFunc.put(funcName, values -> {
                 try {
-                    return (Value) method.invoke(null, values);
+                    return method.invoke(null, values);
                 } catch (Exception e) {
                     if (e.getCause() != null) {
                         throw (Exception) e.getCause();
