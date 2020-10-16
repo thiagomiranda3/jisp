@@ -1,9 +1,10 @@
 package br.com.tommiranda.utils;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * @author wwthi
@@ -44,5 +45,19 @@ public class Util {
         }
 
         return thisString.equals(thatString);
+    }
+
+    // Itera sobre dois iterables alterando o primeiro passado
+    public static <T, Y> Map<T, Y> createMapFromIterables(Iterable<T> iterable1, Iterable<Y> iterable2, Supplier<? extends Map<T, Y>> supplier) {
+        Iterator<T> iter1 = iterable1.iterator();
+        Iterator<Y> iter2 = iterable2.iterator();
+
+        Map<T, Y> map = supplier.get();
+
+        while(iter1.hasNext() && iter2.hasNext()) {
+            map.put(iter1.next(), iter2.next());
+        }
+
+        return map;
     }
 }

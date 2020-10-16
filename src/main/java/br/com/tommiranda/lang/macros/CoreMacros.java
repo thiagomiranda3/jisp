@@ -1,13 +1,16 @@
 package br.com.tommiranda.lang.macros;
 
 import br.com.tommiranda.ast.Node;
+import br.com.tommiranda.eval.Evaluator;
 import br.com.tommiranda.eval.Func;
 import br.com.tommiranda.eval.Globals;
 import br.com.tommiranda.eval.Symbol;
+import br.com.tommiranda.exceptions.DuplicateParamsException;
+import br.com.tommiranda.exceptions.WrongParamsException;
 import br.com.tommiranda.lang.GlobalMacro;
+import br.com.tommiranda.utils.Util;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class CoreMacros {
 
@@ -17,18 +20,18 @@ public class CoreMacros {
     @GlobalMacro
     public static List<Node> define(List<Node> nodes) {
         if (nodes.size() != 2) {
-            throw new IllegalArgumentException("define needs to receive a symbol and an expression");
+            throw new WrongParamsException("define needs to receive a symbol and an expression");
         }
 
         Node nodeSymbol = nodes.get(0);
         Node nodeExpr = nodes.get(1);
 
         if (nodeSymbol.getValue() == null || !(nodeSymbol.getValue() instanceof Symbol)) {
-            throw new IllegalArgumentException("define needs to receive a symbol as first param");
+            throw new WrongParamsException("define needs to receive a symbol as first param");
         }
 
         if (nodeExpr.getValue() == null) {
-            throw new IllegalArgumentException("define needs to receive a value or a lambda function as second param");
+            throw new WrongParamsException("define needs to receive a value or a lambda function as second param");
         }
 
         Symbol defineName = (Symbol) nodeSymbol.getValue();
@@ -45,13 +48,13 @@ public class CoreMacros {
     @GlobalMacro
     public static List<Node> undefine(List<Node> nodes) {
         if (nodes.size() != 1) {
-            throw new IllegalArgumentException("undefine can only receive one symbol as param");
+            throw new WrongParamsException("undefine can only receive one symbol as param");
         }
 
         Node nodeSymbol = nodes.get(0);
 
         if (nodeSymbol.getValue() == null || !(nodeSymbol.getValue() instanceof Symbol)) {
-            throw new IllegalArgumentException("define needs to receive a symbol as param");
+            throw new WrongParamsException("undefine needs to receive a symbol as param");
         }
 
         Symbol defineName = (Symbol) nodeSymbol.getValue();
@@ -62,5 +65,59 @@ public class CoreMacros {
         Node node = new Node(Boolean.toString(undefined), null);
 
         return Collections.singletonList(node);
+    }
+
+    // (lambda [x, y] (* x y))
+    // (lambda (list x y) (* x y))
+    // (define mul (lambda (list x y) (* x y)))
+    @GlobalMacro
+    public static List<Node> lambda(List<Node> nodes) {
+        if (nodes.size() != 2) {
+            throw new WrongParamsException("lambda functions need to receive a list and an expression");
+        }
+
+        Node nodeList = nodes.get(0);
+        Node nodeExpr = nodes.get(1);
+
+        if (Util.isNullOrEmpty(nodeList.getOp()) || !nodeList.getOp().equals("list")) {
+            throw new WrongParamsException("lambda needs to receive a list as the first param");
+        }
+
+        if (Util.isNullOrEmpty(nodeExpr.getOp())) {
+            throw new WrongParamsException("lambda needs to receive an expression as the second param");
+        }
+
+        List<Symbol> symbolParams = new ArrayList<>();
+        Set<Symbol> uniqueSymbols = new LinkedHashSet<>();
+
+        for (Object param : Util.safeList(nodeList.getChildrenValues())) {
+            if (!(param instanceof Symbol)) {
+                throw new WrongParamsException("All itens in the list params need to be a symbol");
+            }
+
+            if (!uniqueSymbols.add((Symbol) param)) {
+                throw new DuplicateParamsException("lambda function cannot receive duplicate params");
+            }
+
+            symbolParams.add((Symbol) param);
+        }
+
+        Func func = (values) -> {
+            if (symbolParams.size() != values.size()) {
+                throw new WrongParamsException(values.size() + " values passed to function, but only " + symbolParams.size() + " allowed");
+            }
+
+            Map<Symbol, Object> mapSymbols = Util.createMapFromIterables(symbolParams,
+                                                                         values,
+                                                                         LinkedHashMap::new);
+
+            new Evaluator().assignValuesToSymbols(nodeExpr, mapSymbols);
+
+            Object result = new Evaluator().evaluateTree(nodeExpr);
+
+            return result;
+        };
+
+        return Collections.singletonList(new Node(func));
     }
 }

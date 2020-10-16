@@ -17,11 +17,11 @@ public class Main {
 
                 Node node = new ASTGenerator().createAST();
 
-                System.out.println("AST: " + gson.toJson(node));
+                //System.out.println("AST: " + gson.toJson(node));
 
                 node = new Transformer().transformTree(node);
 
-                System.out.println("Exp: " + gson.toJson(node));
+                //System.out.println("Exp: " + gson.toJson(node));
 
                 Object value = new Evaluator().evaluateTree(node);
 

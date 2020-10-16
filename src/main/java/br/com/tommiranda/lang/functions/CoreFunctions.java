@@ -24,7 +24,7 @@ public class CoreFunctions {
 
     @GlobalFunction
     public static Object pass(List<Object> objects) {
-        if(Util.safeList(objects).size() == 1) {
+        if (Util.safeList(objects).size() == 1) {
             return objects.get(0);
         }
 
