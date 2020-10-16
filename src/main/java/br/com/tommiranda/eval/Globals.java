@@ -1,5 +1,7 @@
 package br.com.tommiranda.eval;
 
+import br.com.tommiranda.exceptions.FieldUndefinedException;
+import br.com.tommiranda.exceptions.MethodUndefinedException;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.Util;
 import org.reflections.Reflections;
@@ -10,11 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public final class GlobalFunctions {
+public final class Globals {
 
-    private static final Map<String, Func> mapFunc = createMap();
+    private static final Map<String, Func> mapFunc = mapFunctions();
+    private static final Map<String, Object> mapSymbol = mapSymbols();
 
-    private static Map<String, Func> createMap() {
+    private static Map<String, Func> mapFunctions() {
         Map<String, Func> mapFunc = new HashMap<>();
 
         Reflections reflections = new Reflections("br.com.tommiranda.lang", new MethodAnnotationsScanner());
@@ -42,17 +45,37 @@ public final class GlobalFunctions {
         return mapFunc;
     }
 
+    private static Map<String, Object> mapSymbols() {
+        Map<String, Object> mapSymbol = new HashMap<>();
+
+        return mapSymbol;
+    }
+
     public static void addFunction(String name, Func func) {
         mapFunc.put(name, func);
     }
 
-    public static Func getFunc(String name) throws NoSuchMethodException {
+    public static void addSymbol(String name, Object object) {
+        mapSymbol.put(name, object);
+    }
+
+    public static Func getFunc(String name) {
         Func func = mapFunc.get(name);
 
         if (func != null) {
             return func;
         }
 
-        throw new NoSuchMethodException(name + " method undefined");
+        throw new MethodUndefinedException(name + " method undefined");
+    }
+
+    public static Object getSymbolValue(String name) {
+        Object value = mapSymbol.get(name);
+
+        if(value != null) {
+            return value;
+        }
+
+        throw new FieldUndefinedException(name + " symbol undefined");
     }
 }

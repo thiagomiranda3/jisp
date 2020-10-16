@@ -1,6 +1,9 @@
 package br.com.tommiranda.ast;
 
-import java.util.LinkedList;
+import br.com.tommiranda.eval.Globals;
+import br.com.tommiranda.eval.Symbol;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,13 +37,27 @@ public class Node {
         return value;
     }
 
+    public Object getEvaluatedValue() {
+        if(value instanceof Symbol) {
+            Symbol symbol = (Symbol) value;
+
+            if(symbol.getValue() != null) {
+                return symbol.getValue();
+            }
+
+            return Globals.getSymbolValue(symbol.getName());
+        }
+
+        return value;
+    }
+
     public void setValue(Object value) {
         this.value = value;
     }
 
     public List<Node> getNodes() {
         if (nodes == null) {
-            nodes = new LinkedList<>();
+            nodes = new ArrayList<>();
         }
 
         return nodes;
@@ -50,13 +67,19 @@ public class Node {
         this.nodes = nodes;
     }
 
-    public List<Object> getChildValues() {
+    public List<Object> getChildrenValues() {
         return getNodes().stream()
                          .map(Node::getValue)
                          .collect(Collectors.toList());
     }
 
+    public List<Object> getEvaluatedChildren() {
+        return getNodes().stream()
+                         .map(Node::getEvaluatedValue)
+                         .collect(Collectors.toList());
+    }
+
     public List<Node> getChildNodes() {
-        return new LinkedList<>(getNodes());
+        return new ArrayList<>(getNodes());
     }
 }

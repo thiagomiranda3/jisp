@@ -1,5 +1,6 @@
 package br.com.tommiranda.ast;
 
+import br.com.tommiranda.eval.Symbol;
 import br.com.tommiranda.utils.Util;
 import org.apache.commons.lang3.math.NumberUtils;
 
@@ -128,7 +129,7 @@ public class ASTGenerator {
                     return new Node(new BigDecimal(strValue));
                 }
 
-                return new Node(strValue);
+                return new Node(new Symbol(strValue));
             }
 
             if (isQuote()) {

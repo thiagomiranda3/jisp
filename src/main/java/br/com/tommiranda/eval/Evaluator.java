@@ -11,9 +11,9 @@ public class Evaluator {
         }
 
         if (Util.stringOK(node.getOp())) {
-            Func func = GlobalFunctions.getFunc(node.getOp());
+            Func func = Globals.getFunc(node.getOp());
 
-            Object value = func.exec(node.getChildValues());
+            Object value = func.exec(node.getEvaluatedChildren());
 
             node.setOp(null);
             node.setNodes(null);
