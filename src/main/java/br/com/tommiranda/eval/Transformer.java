@@ -10,17 +10,12 @@ import java.util.List;
 public class Transformer {
 
     public Node transformTree(Node root) throws Exception {
-        transformTree2(root);
+        List<Node> nodes = transformTree2(root);
 
-        if (Util.stringOK(root.getOp())) {
-            Macro macro = GlobalMacros.getMacro(root.getOp());
-
-            if (macro != null) {
-                List<Node> children = macro.exec(root.getChildNodes());
-
-                root.setOp("null");
-                root.setNodes(children);
-            }
+        Macro macro = GlobalMacros.getMacro(root.getOp());
+        if (macro != null) {
+            root.setOp("pass");
+            root.setNodes(nodes);
         }
 
         return root;

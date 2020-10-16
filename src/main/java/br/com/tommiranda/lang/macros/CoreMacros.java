@@ -5,8 +5,8 @@ import br.com.tommiranda.eval.Func;
 import br.com.tommiranda.eval.Globals;
 import br.com.tommiranda.eval.Symbol;
 import br.com.tommiranda.lang.GlobalMacro;
-import br.com.tommiranda.utils.Util;
 
+import java.util.Collections;
 import java.util.List;
 
 public class CoreMacros {
@@ -40,5 +40,27 @@ public class CoreMacros {
         }
 
         return null;
+    }
+
+    @GlobalMacro
+    public static List<Node> undefine(List<Node> nodes) {
+        if (nodes.size() != 1) {
+            throw new IllegalArgumentException("undefine can only receive one symbol as param");
+        }
+
+        Node nodeSymbol = nodes.get(0);
+
+        if (nodeSymbol.getValue() == null || !(nodeSymbol.getValue() instanceof Symbol)) {
+            throw new IllegalArgumentException("define needs to receive a symbol as param");
+        }
+
+        Symbol defineName = (Symbol) nodeSymbol.getValue();
+
+        boolean undefined = Globals.removeSymbol(defineName.getName()) ||
+                            Globals.removeFunction(defineName.getName());
+
+        Node node = new Node(Boolean.toString(undefined), null);
+
+        return Collections.singletonList(node);
     }
 }

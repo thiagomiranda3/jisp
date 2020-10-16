@@ -59,6 +59,14 @@ public final class Globals {
         mapSymbol.put(name, object);
     }
 
+    public static boolean removeFunction(String name) {
+        return mapFunc.remove(name) != null;
+    }
+
+    public static boolean removeSymbol(String name) {
+        return mapSymbol.remove(name) != null;
+    }
+
     public static Func getFunc(String name) {
         Func func = mapFunc.get(name);
 
