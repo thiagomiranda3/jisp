@@ -32,12 +32,6 @@ public class ASTGenerator {
 
         ignoreSpaces();
 
-        char firstChar = code.charAt(countExp++);
-
-        if (firstChar != '(') {
-            throw new IllegalStateException("Expression need to be initialized with (");
-        }
-
         root = createNode();
 
         return root;
@@ -52,11 +46,17 @@ public class ASTGenerator {
         while (true) {
             continueIfEOF();
 
+            char c = code.charAt(countExp++);
+
+            if (c != '(') {
+                throw new IllegalStateException("Expression need to be initialized with (");
+            }
+
             Node node = new Node();
 
             node.setOp(getOp());
 
-            char c = code.charAt(countExp);
+            c = code.charAt(countExp);
 
             if (c == ')') {
                 return node;
@@ -111,8 +111,6 @@ public class ASTGenerator {
             char c = code.charAt(countExp);
 
             if (c == '(') {
-                countExp++;
-
                 Node node = createNode();
 
                 countExp++;
@@ -198,5 +196,11 @@ public class ASTGenerator {
         char c = code.charAt(countExp);
 
         return c == '"' || c == '\'';
+    }
+
+    private boolean isList() {
+        char c = code.charAt(countExp);
+
+        return c == '[';
     }
 }

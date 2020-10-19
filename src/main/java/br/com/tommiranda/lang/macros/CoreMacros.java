@@ -9,6 +9,7 @@ import br.com.tommiranda.exceptions.DuplicateParamsException;
 import br.com.tommiranda.exceptions.WrongParamsException;
 import br.com.tommiranda.lang.GlobalMacro;
 import br.com.tommiranda.utils.Util;
+import org.apache.commons.lang3.SerializationUtils;
 
 import java.util.*;
 
@@ -107,13 +108,15 @@ public class CoreMacros {
                 throw new WrongParamsException(values.size() + " values passed to function, but only " + symbolParams.size() + " allowed");
             }
 
+            Node lambdaExpr = SerializationUtils.clone(nodeExpr);
+
             Map<Symbol, Object> mapSymbols = Util.createMapFromIterables(symbolParams,
                                                                          values,
                                                                          LinkedHashMap::new);
 
-            new Evaluator().assignValuesToSymbols(nodeExpr, mapSymbols);
+            new Evaluator().assignValuesToSymbols(lambdaExpr, mapSymbols);
 
-            Object result = new Evaluator().evaluateTree(nodeExpr);
+            Object result = new Evaluator().evaluateTree(lambdaExpr);
 
             return result;
         };

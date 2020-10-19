@@ -1,8 +1,9 @@
 package br.com.tommiranda.eval;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Symbol {
+public class Symbol implements Serializable {
 
     private String name;
     private Object value;
