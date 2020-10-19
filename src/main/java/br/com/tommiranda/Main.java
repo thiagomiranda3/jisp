@@ -19,11 +19,11 @@ public class Main {
 
                 System.out.println("AST: " + gson.toJson(node));
 
-                node = new Transformer().transformTree(node);
+                node = new Transformer().expand(node);
 
                 System.out.println("Exp: " + gson.toJson(node));
 
-                Object value = new Evaluator().evaluateTree(node);
+                Object value = new Evaluator().eval(node);
 
                 System.out.println(value);
             } catch (Exception e) {

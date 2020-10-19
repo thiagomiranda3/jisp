@@ -34,10 +34,10 @@ public final class Globals {
                     return method.invoke(null, values);
                 } catch (Exception e) {
                     if (e.getCause() != null) {
-                        throw (Exception) e.getCause();
+                        throw (RuntimeException) e.getCause();
                     }
 
-                    throw e;
+                    throw new RuntimeException(e);
                 }
             });
         }

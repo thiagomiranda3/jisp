@@ -5,5 +5,5 @@ import java.util.List;
 @FunctionalInterface
 public interface Func {
 
-    Object exec(List<Object> params) throws Exception;
+    Object exec(List<Object> params);
 }

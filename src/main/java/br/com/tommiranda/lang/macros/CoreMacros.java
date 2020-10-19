@@ -9,7 +9,6 @@ import br.com.tommiranda.exceptions.DuplicateParamsException;
 import br.com.tommiranda.exceptions.WrongParamsException;
 import br.com.tommiranda.lang.GlobalMacro;
 import br.com.tommiranda.utils.Util;
-import org.apache.commons.lang3.SerializationUtils;
 
 import java.util.*;
 
@@ -103,20 +102,18 @@ public class CoreMacros {
             symbolParams.add((Symbol) param);
         }
 
-        Func func = (values) -> {
-            if (symbolParams.size() != values.size()) {
-                throw new WrongParamsException(values.size() + " values passed to function, but only " + symbolParams.size() + " allowed");
+        Func func = (params) -> {
+            if (symbolParams.size() != params.size()) {
+                throw new WrongParamsException(params.size() + " params passed to function, but only " + symbolParams.size() + " allowed");
             }
 
-            Node lambdaExpr = SerializationUtils.clone(nodeExpr);
-
-            Map<Symbol, Object> mapSymbols = Util.createMapFromIterables(symbolParams,
-                                                                         values,
+            Map<Symbol, Object> env = Util.createMapFromIterables(symbolParams,
+                                                                         params,
                                                                          LinkedHashMap::new);
 
-            new Evaluator().assignValuesToSymbols(lambdaExpr, mapSymbols);
+            new Evaluator().assignValuesToSymbols(nodeExpr, env);
 
-            Object result = new Evaluator().evaluateTree(lambdaExpr);
+            Object result = new Evaluator().eval(nodeExpr);
 
             return result;
         };

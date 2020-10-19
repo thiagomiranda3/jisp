@@ -3,13 +3,15 @@ package br.com.tommiranda.eval;
 import br.com.tommiranda.ast.Node;
 import br.com.tommiranda.utils.Util;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Evaluator {
 
-    public void assignValuesToSymbols(Node node, Map<Symbol, Object> symbolParams) throws Exception {
+    public void assignValuesToSymbols(Node node, Map<Symbol, Object> env) {
         for (Node child : Util.safeList(node.getNodes())) {
-            assignValuesToSymbols(child, symbolParams);
+            assignValuesToSymbols(child, env);
         }
 
         Object value = node.getValue();
@@ -20,28 +22,40 @@ public class Evaluator {
 
         Symbol symbol = (Symbol) value;
 
-        Object symbolValue = symbolParams.get(symbol);
+        Object symbolValue = env.get(symbol);
 
         if (symbolValue != null) {
             symbol.setValue(symbolValue);
         }
     }
 
-    public Object evaluateTree(Node node) throws Exception {
-        for (Node child : Util.safeList(node.getNodes())) {
-            evaluateTree(child);
+    public Object eval(Node node) {
+        if (Util.isNullOrEmpty(node.getOp())) {
+            return node.getValue();
         }
 
-        if (Util.stringOK(node.getOp())) {
-            Func func = Globals.getFunc(node.getOp());
+        Func func = Globals.getFunc(node.getOp());
 
-            Object value = func.exec(node.getEvaluatedChildren());
+        List<Object> params = node.getNodes().stream()
+                                  .map(this::eval)
+                                  .map(this::evaluateIfSymbol)
+                                  .collect(Collectors.toList());
 
-            node.setOp(null);
-            node.setNodes(null);
-            node.setValue(value);
+        return func.exec(params);
+
+    }
+
+    private Object evaluateIfSymbol(Object value) {
+        if (value instanceof Symbol) {
+            Symbol symbol = (Symbol) value;
+
+            if (symbol.getValue() != null) {
+                return symbol.getValue();
+            }
+
+            return Globals.getSymbolValue(symbol.getName());
         }
 
-        return node.getValue();
+        return value;
     }
 }

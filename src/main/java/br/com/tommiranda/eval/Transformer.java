@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Transformer {
 
-    public Node transformTree(Node root) throws Exception {
-        List<Node> nodes = transformTree2(root);
+    public Node expand(Node root) throws Exception {
+        List<Node> nodes = expandTree(root);
 
         Macro macro = GlobalMacros.getMacro(root.getOp());
         if (macro != null) {
@@ -21,14 +21,14 @@ public class Transformer {
         return root;
     }
 
-    public List<Node> transformTree2(Node node) throws Exception {
+    public List<Node> expandTree(Node node) throws Exception {
         List<Node> children = node.getNodes();
         List<Node> newChildren = new ArrayList<>();
 
         for (int i = 0; i < children.size(); i++) {
             Node child = children.get(i);
 
-            List<Node> newNodes = transformTree2(child);
+            List<Node> newNodes = expandTree(child);
             if (newNodes != null) {
                 newChildren.addAll(newNodes);
             }

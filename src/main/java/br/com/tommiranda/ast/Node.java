@@ -42,20 +42,6 @@ public class Node implements Serializable {
         this.value = value;
     }
 
-    public Object getEvaluatedValue() {
-        if (value instanceof Symbol) {
-            Symbol symbol = (Symbol) value;
-
-            if (symbol.getValue() != null) {
-                return symbol.getValue();
-            }
-
-            return Globals.getSymbolValue(symbol.getName());
-        }
-
-        return value;
-    }
-
     public List<Node> getNodes() {
         if (nodes == null) {
             nodes = new ArrayList<>();
@@ -71,12 +57,6 @@ public class Node implements Serializable {
     public List<Object> getChildrenValues() {
         return getNodes().stream()
                          .map(Node::getValue)
-                         .collect(Collectors.toList());
-    }
-
-    public List<Object> getEvaluatedChildren() {
-        return getNodes().stream()
-                         .map(Node::getEvaluatedValue)
                          .collect(Collectors.toList());
     }
 
