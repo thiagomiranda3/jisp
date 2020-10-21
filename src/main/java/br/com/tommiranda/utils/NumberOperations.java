@@ -1,5 +1,8 @@
 package br.com.tommiranda.utils;
 
+import org.apfloat.Apfloat;
+import org.apfloat.ApfloatMath;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -191,5 +194,17 @@ public class NumberOperations {
         }
 
         return ((BigDecimal) a).sqrt(new MathContext(16));
+    }
+
+    public static Number pi(Number a) {
+        long precision = (long) a.doubleValue();
+
+        Apfloat result = ApfloatMath.pi(precision);
+
+        if (precision > 16) {
+            return new BigDecimal(result.toString(true));
+        }
+
+        return result.doubleValue();
     }
 }

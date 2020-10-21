@@ -47,6 +47,14 @@ public class Util {
         return thisString.equals(thatString);
     }
 
+    public static <T> T getOrDefault(List<T> list, int idx, T def) {
+        if(list.size() > idx) {
+            return list.get(idx);
+        }
+
+        return def;
+    }
+
     // Itera sobre dois iterables alterando o primeiro passado
     public static <T, Y> Map<T, Y> createMapFromIterables(Iterable<T> iterable1, Iterable<Y> iterable2, Supplier<? extends Map<T, Y>> supplier) {
         Iterator<T> iter1 = iterable1.iterator();
