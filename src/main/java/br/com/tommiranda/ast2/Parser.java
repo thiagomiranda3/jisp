@@ -2,6 +2,7 @@ package br.com.tommiranda.ast2;
 
 import br.com.tommiranda.eval.Symbol;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apfloat.Apfloat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -25,10 +26,24 @@ public class Parser {
                 readAsString = !readAsString;
             } else if (readAsString) {
                 ast.add(token);
-            } else if (NumberUtils.isCreatable(token)) {
+            } else if (NumberUtils.isParsable(token)) {
+                try {
+                    Double value = Double.valueOf(token);
+
+                    if (Double.isInfinite(value) || Double.isNaN(value)) {
+                        throw new ArithmeticException("double overflow");
+                    }
+
+                    ast.add(value);
+                } catch (NumberFormatException | ArithmeticException e) {
+                    ast.add(new BigDecimal(token));
+                }
+            } else if(NumberUtils.isCreatable(token)) {
                 ast.add(new BigDecimal(token));
-            } else if(token.equals("true") || token.equals("false")) {
+            } else if (token.equals("true") || token.equals("false")) {
                 ast.add(Boolean.valueOf(token));
+            } else if(token.equals("null")) {
+                ast.add(null);
             } else {
                 ast.add(new Symbol(token));
             }

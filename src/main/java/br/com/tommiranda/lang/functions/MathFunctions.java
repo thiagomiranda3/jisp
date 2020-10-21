@@ -1,67 +1,66 @@
 package br.com.tommiranda.lang.functions;
 
 import br.com.tommiranda.lang.GlobalFunction;
+import br.com.tommiranda.utils.NumberOperations;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public final class MathFunctions {
 
     @GlobalFunction("+")
-    public static BigDecimal sum(List<Object> numbers) {
+    public static Number sum(List<Object> numbers) {
         return numbers.stream()
-                      .map(n -> (BigDecimal) n)
-                      .reduce(BigDecimal::add)
+                      .map(n -> (Number) n)
+                      .reduce(NumberOperations::sum)
                       .orElseThrow(() -> new NoSuchElementException("No params passed to + operator"));
     }
 
     @GlobalFunction("-")
-    public static BigDecimal substract(List<Object> numbers) {
+    public static Number substract(List<Object> numbers) {
         return numbers.stream()
-                      .map(n -> (BigDecimal) n)
-                      .reduce(BigDecimal::subtract)
+                      .map(n -> (Number) n)
+                      .reduce(NumberOperations::subtract)
                       .orElseThrow(() -> new NoSuchElementException("No params passed to - operator"));
     }
 
     @GlobalFunction("*")
-    public static BigDecimal multiple(List<Object> numbers) {
+    public static Number multiple(List<Object> numbers) {
         return numbers.stream()
-                      .map(n -> (BigDecimal) n)
-                      .reduce(BigDecimal::multiply)
+                      .map(n -> (Number) n)
+                      .reduce(NumberOperations::multiply)
                       .orElseThrow(() -> new NoSuchElementException("No params passed to * operator"));
     }
 
     @GlobalFunction("/")
-    public static BigDecimal divide(List<Object> numbers) {
+    public static Number divide(List<Object> numbers) {
         return numbers.stream()
-                      .map(n -> (BigDecimal) n)
-                      .reduce((a, b) -> a.divide(b, 8, RoundingMode.HALF_EVEN))
+                      .map(n -> (Number) n)
+                      .reduce(NumberOperations::divide)
                       .orElseThrow(() -> new NoSuchElementException("No params passed to / operator"));
     }
 
     @GlobalFunction("%")
-    public static BigDecimal remainder(List<Object> numbers) {
+    public static Number remainder(List<Object> numbers) {
         return numbers.stream()
-                      .map(n -> (BigDecimal) n)
-                      .reduce(BigDecimal::remainder)
+                      .map(n -> (Number) n)
+                      .reduce(NumberOperations::remainder)
                       .orElseThrow(() -> new NoSuchElementException("No params passed to % operator"));
     }
 
     @GlobalFunction
-    public static BigDecimal max(List<Object> numbers) {
+    public static Number max(List<Object> numbers) {
         return numbers.stream()
-                      .map(n -> (BigDecimal) n)
-                      .reduce(BigDecimal::max)
+                      .map(n -> (Number) n)
+                      .reduce(NumberOperations::max)
                       .orElseThrow(() -> new NoSuchElementException("No params passed to max function"));
     }
 
     @GlobalFunction
-    public static BigDecimal min(List<Object> numbers) {
+    public static Number min(List<Object> numbers) {
         return numbers.stream()
-                      .map(n -> (BigDecimal) n)
-                      .reduce(BigDecimal::min)
+                      .map(n -> (Number) n)
+                      .reduce(NumberOperations::min)
                       .orElseThrow(() -> new NoSuchElementException("No params passed to min function"));
     }
 }
