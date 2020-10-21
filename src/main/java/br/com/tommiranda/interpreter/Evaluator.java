@@ -1,7 +1,6 @@
-package br.com.tommiranda.ast2;
+package br.com.tommiranda.interpreter;
 
-import br.com.tommiranda.eval.Func;
-import br.com.tommiranda.eval.Symbol;
+import br.com.tommiranda.lang.Func;
 import br.com.tommiranda.exceptions.WrongParamsException;
 
 import java.util.List;

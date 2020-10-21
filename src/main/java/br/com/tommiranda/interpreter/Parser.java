@@ -1,8 +1,6 @@
-package br.com.tommiranda.ast2;
+package br.com.tommiranda.interpreter;
 
-import br.com.tommiranda.eval.Symbol;
 import org.apache.commons.lang3.math.NumberUtils;
-import org.apfloat.Apfloat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

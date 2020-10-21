@@ -1,4 +1,4 @@
-package br.com.tommiranda.eval;
+package br.com.tommiranda.interpreter;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -6,27 +6,13 @@ import java.util.Objects;
 public class Symbol implements Serializable {
 
     private String name;
-    private Object value;
 
     public Symbol(String name) {
         this.name = name;
     }
 
-    public Symbol(String name, Object value) {
-        this.name = name;
-        this.value = value;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
     }
 
     @Override

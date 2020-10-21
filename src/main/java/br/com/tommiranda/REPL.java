@@ -1,16 +1,20 @@
 package br.com.tommiranda;
 
-import br.com.tommiranda.ast2.*;
-import com.google.gson.Gson;
+import br.com.tommiranda.interpreter.*;
+import br.com.tommiranda.lang.Global;
 
 import java.util.Deque;
 import java.util.Scanner;
 
 public class REPL {
 
-    private final Gson gson = new Gson();
     private final Scanner scanner = new Scanner(System.in);
 
+    // (+
+    // (hello)
+    // (+ 1 2 3 4)
+    // (/ (* 3 2) (- 10 5))
+    // (* 2 3 (- 5 2))
     public void start() {
         Tokenizer tokenizer = new Tokenizer();
 

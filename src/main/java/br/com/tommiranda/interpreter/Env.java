@@ -1,6 +1,5 @@
-package br.com.tommiranda.ast2;
+package br.com.tommiranda.interpreter;
 
-import br.com.tommiranda.eval.Symbol;
 import br.com.tommiranda.exceptions.SymbolUndefinedException;
 import br.com.tommiranda.utils.Util;
 

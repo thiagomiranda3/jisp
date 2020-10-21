@@ -1,13 +1,13 @@
-package br.com.tommiranda.ast2;
+package br.com.tommiranda.lang;
 
-import br.com.tommiranda.eval.Func;
+import br.com.tommiranda.interpreter.Env;
+import br.com.tommiranda.lang.Func;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.Util;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;

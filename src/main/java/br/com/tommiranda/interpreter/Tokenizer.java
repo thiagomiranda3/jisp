@@ -1,4 +1,4 @@
-package br.com.tommiranda.ast2;
+package br.com.tommiranda.interpreter;
 
 import br.com.tommiranda.exceptions.SyntaxErrorException;
 
