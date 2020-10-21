@@ -1,9 +1,6 @@
 package br.com.tommiranda;
 
-import br.com.tommiranda.ast2.Environment;
-import br.com.tommiranda.ast2.Evaluator;
-import br.com.tommiranda.ast2.Parser;
-import br.com.tommiranda.ast2.Tokenizer;
+import br.com.tommiranda.ast2.*;
 import com.google.gson.Gson;
 
 import java.util.Deque;
@@ -30,10 +27,9 @@ public class REPL {
 
                 Deque<String> tokens = tokenizer.getTokens();
                 Object expr = Parser.parse(tokens);
-                Object result = Evaluator.eval(expr, new Environment());
+                Object result = Evaluator.eval(expr, Global.getGlobalEnv());
 
-                System.out.println("AST: " + gson.toJson(expr));
-                System.out.println("EVAL: " + gson.toJson(result));
+                System.out.println(result);
             } catch (Exception e) {
                 System.out.println(e.toString());
             }

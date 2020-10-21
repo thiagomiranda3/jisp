@@ -1,7 +1,6 @@
 package br.com.tommiranda.ast2;
 
 import br.com.tommiranda.eval.Func;
-import br.com.tommiranda.exceptions.SymbolUndefinedException;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.Util;
 import org.reflections.Reflections;
@@ -9,15 +8,16 @@ import org.reflections.scanners.MethodAnnotationsScanner;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-public final class Environment {
+public final class Global {
 
-    private final Map<String, Object> env = mapFunctions();
+    private static final Env globalEnv = getGlobals();
 
-    private Map<String, Object> mapFunctions() {
-        Map<String, Object> env = new HashMap<>();
+    private static Env getGlobals() {
+        Map<String, Object> mapEnv = new LinkedHashMap<>();
 
         Reflections reflections = new Reflections("br.com.tommiranda.lang", new MethodAnnotationsScanner());
         Set<Method> annotatedMethods = reflections.getMethodsAnnotatedWith(GlobalFunction.class);
@@ -28,7 +28,7 @@ public final class Environment {
                 funcName = method.getName();
             }
 
-            env.put(funcName, (Func) values -> {
+            mapEnv.put(funcName, (Func) values -> {
                 try {
                     return method.invoke(null, values);
                 } catch (Exception e) {
@@ -41,24 +41,10 @@ public final class Environment {
             });
         }
 
-        return env;
+        return new Env(mapEnv);
     }
 
-    public void addSymbol(String name, Object object) {
-        env.put(name, object);
-    }
-
-    public boolean removeSymbol(String name) {
-        return env.remove(name) != null;
-    }
-
-    public Object getSymbolValue(String name) {
-        Object value = env.get(name);
-
-        if (value != null) {
-            return value;
-        }
-
-        throw new SymbolUndefinedException(name + " symbol undefined");
+    public static Env getGlobalEnv() {
+        return globalEnv;
     }
 }
