@@ -2,6 +2,7 @@ package br.com.tommiranda.eval;
 
 import br.com.tommiranda.exceptions.FieldUndefinedException;
 import br.com.tommiranda.exceptions.MethodUndefinedException;
+import br.com.tommiranda.exceptions.SymbolUndefinedException;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.Util;
 import org.reflections.Reflections;
@@ -12,13 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public final class Globals {
+public final class Environment {
 
-    private static final Map<String, Func> mapFunc = mapFunctions();
-    private static final Map<String, Object> mapSymbol = mapSymbols();
+    private static final Map<String, Object> env = mapFunctions();
 
-    private static Map<String, Func> mapFunctions() {
-        Map<String, Func> mapFunc = new HashMap<>();
+    private static Map<String, Object> mapFunctions() {
+        Map<String, Object> env = new HashMap<>();
 
         Reflections reflections = new Reflections("br.com.tommiranda.lang", new MethodAnnotationsScanner());
         Set<Method> annotatedMethods = reflections.getMethodsAnnotatedWith(GlobalFunction.class);
@@ -29,7 +29,7 @@ public final class Globals {
                 funcName = method.getName();
             }
 
-            mapFunc.put(funcName, values -> {
+            env.put(funcName, (Func) values -> {
                 try {
                     return method.invoke(null, values);
                 } catch (Exception e) {
@@ -42,48 +42,24 @@ public final class Globals {
             });
         }
 
-        return mapFunc;
-    }
-
-    private static Map<String, Object> mapSymbols() {
-        Map<String, Object> mapSymbol = new HashMap<>();
-
-        return mapSymbol;
-    }
-
-    public static void addFunction(String name, Func func) {
-        mapFunc.put(name, func);
+        return env;
     }
 
     public static void addSymbol(String name, Object object) {
-        mapSymbol.put(name, object);
-    }
-
-    public static boolean removeFunction(String name) {
-        return mapFunc.remove(name) != null;
+        env.put(name, object);
     }
 
     public static boolean removeSymbol(String name) {
-        return mapSymbol.remove(name) != null;
-    }
-
-    public static Func getFunc(String name) {
-        Func func = mapFunc.get(name);
-
-        if (func != null) {
-            return func;
-        }
-
-        throw new MethodUndefinedException(name + " method undefined");
+        return env.remove(name) != null;
     }
 
     public static Object getSymbolValue(String name) {
-        Object value = mapSymbol.get(name);
+        Object value = env.get(name);
 
-        if(value != null) {
+        if (value != null) {
             return value;
         }
 
-        throw new FieldUndefinedException(name + " symbol undefined");
+        throw new SymbolUndefinedException(name + " symbol undefined");
     }
 }

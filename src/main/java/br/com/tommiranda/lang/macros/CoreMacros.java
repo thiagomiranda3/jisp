@@ -3,7 +3,7 @@ package br.com.tommiranda.lang.macros;
 import br.com.tommiranda.ast.Node;
 import br.com.tommiranda.eval.Evaluator;
 import br.com.tommiranda.eval.Func;
-import br.com.tommiranda.eval.Globals;
+import br.com.tommiranda.eval.Environment;
 import br.com.tommiranda.eval.Symbol;
 import br.com.tommiranda.exceptions.DuplicateParamsException;
 import br.com.tommiranda.exceptions.WrongParamsException;
@@ -37,9 +37,9 @@ public class CoreMacros {
         Symbol defineName = (Symbol) nodeSymbol.getValue();
 
         if (nodeExpr.getValue() instanceof Func) {
-            Globals.addFunction(defineName.getName(), (Func) nodeExpr.getValue());
+            Environment.addSymbol(defineName.getName(), (Func) nodeExpr.getValue());
         } else {
-            Globals.addSymbol(defineName.getName(), nodeExpr.getValue());
+            Environment.addSymbol(defineName.getName(), nodeExpr.getValue());
         }
 
         return null;
@@ -59,8 +59,7 @@ public class CoreMacros {
 
         Symbol defineName = (Symbol) nodeSymbol.getValue();
 
-        boolean undefined = Globals.removeSymbol(defineName.getName()) ||
-                            Globals.removeFunction(defineName.getName());
+        boolean undefined = Environment.removeSymbol(defineName.getName());
 
         Node node = new Node(Boolean.toString(undefined), null);
 

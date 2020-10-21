@@ -1,22 +1,19 @@
-package br.com.tommiranda.ast;
+package br.com.tommiranda.ast2;
 
 import br.com.tommiranda.exceptions.SyntaxErrorException;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Tokenizer {
 
-    private List<String> tokens = new ArrayList<>();
+    private Deque<String> tokens = new LinkedList<>();
     private ArrayDeque<String> brackets = new ArrayDeque<>();
 
     public boolean isParseable() {
         return brackets.isEmpty();
     }
 
-    public List<String> tokenize(String expr) {
+    public Deque<String> tokenize(String expr) {
         expr = expr.trim()
                    .replace("(", " ( ")
                    .replace("[", " [ ")
@@ -26,7 +23,7 @@ public class Tokenizer {
 
         StringTokenizer tokenizer = new StringTokenizer(expr, " ", true);
 
-        List<String> newTokens = new ArrayList<>();
+        Deque<String> newTokens = new LinkedList<>();
 
         StringBuilder strAcc = new StringBuilder();
         boolean readAsString = false;
@@ -49,16 +46,12 @@ public class Tokenizer {
             } else if (token.equals("(") || token.equals("[")) {
                 brackets.add(token);
             } else if (token.equals(")")) {
-                String lastBracket = brackets.removeLast();
-
-                if (!lastBracket.equals("(")) {
-                    throw new SyntaxErrorException("Unmatched (");
+                if (brackets.isEmpty() || !brackets.removeLast().equals("(")) {
+                    throw new SyntaxErrorException("Unmatched delimiter (");
                 }
             } else if (token.equals("]")) {
-                String lastBracket = brackets.removeLast();
-
-                if (!lastBracket.equals("[")) {
-                    throw new SyntaxErrorException("Unmatched [");
+                if (brackets.isEmpty() || !brackets.removeLast().equals("[")) {
+                    throw new SyntaxErrorException("Unmatched delimiter [");
                 }
             }
 
@@ -66,11 +59,20 @@ public class Tokenizer {
         }
 
         if(!strAcc.isEmpty()) {
-            throw new SyntaxErrorException("unclosed quotes error");
+            throw new SyntaxErrorException("Unclosed quotes error");
         }
 
         this.tokens.addAll(newTokens);
 
-        return new ArrayList<>(tokens);
+        return new LinkedList<>(tokens);
+    }
+
+    public Deque<String> getTokens() {
+        return tokens;
+    }
+
+    public void clean() {
+        tokens.clear();
+        brackets.clear();
     }
 }

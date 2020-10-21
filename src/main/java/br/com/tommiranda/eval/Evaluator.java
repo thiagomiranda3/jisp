@@ -34,7 +34,7 @@ public class Evaluator {
             return node.getValue();
         }
 
-        Func func = Globals.getFunc(node.getOp());
+        Func func = (Func) Environment.getSymbolValue(node.getOp());
 
         List<Object> params = node.getNodes().stream()
                                   .map(this::eval)
@@ -53,7 +53,7 @@ public class Evaluator {
                 return symbol.getValue();
             }
 
-            return Globals.getSymbolValue(symbol.getName());
+            return Environment.getSymbolValue(symbol.getName());
         }
 
         return value;

@@ -1,8 +1,5 @@
 package br.com.tommiranda.ast;
 
-import br.com.tommiranda.eval.Globals;
-import br.com.tommiranda.eval.Symbol;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
