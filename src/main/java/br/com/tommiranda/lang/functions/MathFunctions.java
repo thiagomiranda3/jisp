@@ -1,5 +1,6 @@
 package br.com.tommiranda.lang.functions;
 
+import br.com.tommiranda.exceptions.WrongParamsException;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.NumberOperations;
 
@@ -62,5 +63,16 @@ public final class MathFunctions {
                       .map(n -> (Number) n)
                       .reduce(NumberOperations::min)
                       .orElseThrow(() -> new NoSuchElementException("No params passed to min function"));
+    }
+
+    @GlobalFunction
+    public static Number sqrt(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException("sqrt function has 1 required param. " + numbers.size() + " + were found");
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.sqrt(number);
     }
 }

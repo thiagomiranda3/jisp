@@ -26,7 +26,7 @@ public class CoreFunctions {
     @GlobalFunction
     public static Object type(List<Object> objects) {
         if(objects.size() != 1) {
-            throw new WrongParamsException("type has only 1 required params");
+            throw new WrongParamsException("type function has only 1 required param");
         }
 
         return objects.get(0).getClass().getName();

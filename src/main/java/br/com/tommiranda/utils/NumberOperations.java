@@ -1,6 +1,7 @@
 package br.com.tommiranda.utils;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 
 public class NumberOperations {
@@ -176,5 +177,19 @@ public class NumberOperations {
         }
 
         return new BigDecimal(a.toString()).min(new BigDecimal(b.toString()));
+    }
+
+    public static Number sqrt(Number a) {
+        if (a instanceof Double) {
+            double result = Math.sqrt(a.doubleValue());
+
+            if (Double.isInfinite(result) || Double.isNaN(result)) {
+                throw new ArithmeticException("double overflow");
+            }
+
+            return result;
+        }
+
+        return ((BigDecimal) a).sqrt(new MathContext(16));
     }
 }
