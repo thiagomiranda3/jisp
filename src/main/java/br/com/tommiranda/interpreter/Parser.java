@@ -38,8 +38,10 @@ public class Parser {
                 }
             } else if(NumberUtils.isCreatable(token)) {
                 ast.add(new BigDecimal(token));
-            } else if (token.equals("true") || token.equals("false")) {
-                ast.add(Boolean.valueOf(token));
+            } else if (token.equals("#t")) {
+                ast.add(Boolean.TRUE);
+            } else if(token.equals("#f")) {
+                ast.add(Boolean.FALSE);
             } else if(token.equals("null")) {
                 ast.add(null);
             } else {

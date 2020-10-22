@@ -4,7 +4,6 @@ import br.com.tommiranda.exceptions.WrongParamsException;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.ErrorMessages;
 import br.com.tommiranda.utils.NumberOperations;
-import org.apfloat.ApfloatMath;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -16,7 +15,7 @@ public final class MathFunctions {
         return numbers.stream()
                       .map(n -> (Number) n)
                       .reduce(NumberOperations::sum)
-                      .orElseThrow(() -> new NoSuchElementException("No params passed to + operator"));
+                      .orElseThrow(() -> new NoSuchElementException("No param passed to + operator"));
     }
 
     @GlobalFunction("-")
@@ -24,7 +23,7 @@ public final class MathFunctions {
         return numbers.stream()
                       .map(n -> (Number) n)
                       .reduce(NumberOperations::subtract)
-                      .orElseThrow(() -> new NoSuchElementException("No params passed to - operator"));
+                      .orElseThrow(() -> new NoSuchElementException("No param passed to - operator"));
     }
 
     @GlobalFunction("*")
@@ -32,7 +31,7 @@ public final class MathFunctions {
         return numbers.stream()
                       .map(n -> (Number) n)
                       .reduce(NumberOperations::multiply)
-                      .orElseThrow(() -> new NoSuchElementException("No params passed to * operator"));
+                      .orElseThrow(() -> new NoSuchElementException("No param passed to * operator"));
     }
 
     @GlobalFunction("/")
@@ -40,7 +39,7 @@ public final class MathFunctions {
         return numbers.stream()
                       .map(n -> (Number) n)
                       .reduce(NumberOperations::divide)
-                      .orElseThrow(() -> new NoSuchElementException("No params passed to / operator"));
+                      .orElseThrow(() -> new NoSuchElementException("No param passed to / operator"));
     }
 
     @GlobalFunction("%")
@@ -48,7 +47,7 @@ public final class MathFunctions {
         return numbers.stream()
                       .map(n -> (Number) n)
                       .reduce(NumberOperations::remainder)
-                      .orElseThrow(() -> new NoSuchElementException("No params passed to % operator"));
+                      .orElseThrow(() -> new NoSuchElementException("No param passed to % operator"));
     }
 
     @GlobalFunction
@@ -56,7 +55,7 @@ public final class MathFunctions {
         return numbers.stream()
                       .map(n -> (Number) n)
                       .reduce(NumberOperations::max)
-                      .orElseThrow(() -> new NoSuchElementException("No params passed to max function"));
+                      .orElseThrow(() -> new NoSuchElementException("No param passed to max function"));
     }
 
     @GlobalFunction
@@ -64,13 +63,13 @@ public final class MathFunctions {
         return numbers.stream()
                       .map(n -> (Number) n)
                       .reduce(NumberOperations::min)
-                      .orElseThrow(() -> new NoSuchElementException("No params passed to min function"));
+                      .orElseThrow(() -> new NoSuchElementException("No param passed to min function"));
     }
 
     @GlobalFunction
     public static Number sqrt(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongParamsException("sqrt function has 1 required param. " + numbers.size() + " + were found");
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("sqrt", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -85,7 +84,7 @@ public final class MathFunctions {
         }
 
         Number precision = 16d;
-        if(numbers.size() == 1) {
+        if (numbers.size() == 1) {
             precision = (Number) numbers.get(0);
         }
 

@@ -1,8 +1,6 @@
 package br.com.tommiranda.lang;
 
 import br.com.tommiranda.interpreter.Env;
-import br.com.tommiranda.lang.Func;
-import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.Util;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
