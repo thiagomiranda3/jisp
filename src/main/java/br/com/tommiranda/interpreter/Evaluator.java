@@ -9,6 +9,10 @@ import java.util.stream.Collectors;
 public class Evaluator {
 
     public static Object eval(Object val, Env env) {
+        if(val == null) {
+            return null;
+        }
+
         if (val instanceof Symbol) {
             return env.getSymbolValue(((Symbol) val).getName());
         } else if (!(val instanceof List)) {
@@ -16,8 +20,11 @@ public class Evaluator {
         }
 
         List<Object> expr = (List) val;
+        if(expr.isEmpty()) {
+            return null;
+        }
 
-        Symbol op = (Symbol) expr.get(0);
+        Object op = expr.get(0);
         List<Object> args = expr.subList(1, expr.size());
 
         if (op.equals(new Symbol("quote"))) {
@@ -50,7 +57,7 @@ public class Evaluator {
                 return eval(body, funcEnv);
             };
         } else {
-            Func func = (Func) env.getSymbolValue(op.getName());
+            Func func = (Func) eval(op, env);
             List<Object> params = args.stream()
                                       .map(e -> eval(e, env))
                                       .collect(Collectors.toList());
