@@ -24,7 +24,7 @@ public class Parser {
                 readAsString = !readAsString;
             } else if (readAsString) {
                 ast.add(token);
-            } else if (NumberUtils.isParsable(token)) {
+            } else if (NumberUtils.isCreatable(token)) {
                 try {
                     Double value = Double.valueOf(token);
 
@@ -36,13 +36,9 @@ public class Parser {
                 } catch (NumberFormatException | ArithmeticException e) {
                     ast.add(new BigDecimal(token));
                 }
-            } else if(NumberUtils.isCreatable(token)) {
-                ast.add(new BigDecimal(token));
-            } else if (token.equals("#t")) {
-                ast.add(Boolean.TRUE);
-            } else if(token.equals("#f")) {
-                ast.add(Boolean.FALSE);
-            } else if(token.equals("null")) {
+            } else if (token.equals("true") || token.equals("false")) {
+                ast.add(Boolean.valueOf(token));
+            } else if (token.equals("null")) {
                 ast.add(null);
             } else {
                 ast.add(new Symbol(token));

@@ -20,7 +20,9 @@ public class Evaluator {
         Symbol op = (Symbol) expr.get(0);
         List<Object> args = expr.subList(1, expr.size());
 
-        if (op.equals(new Symbol("if"))) {
+        if (op.equals(new Symbol("quote"))) {
+            return args.get(0);
+        } else if (op.equals(new Symbol("if"))) {
             Object test = args.get(0);
             Object then = args.get(1);
             Object otherwise = args.get(2);
@@ -71,7 +73,7 @@ public class Evaluator {
             return !((List) obj).isEmpty();
         }
 
-        if(obj instanceof String) {
+        if (obj instanceof String) {
             return !((String) obj).isEmpty();
         }
 

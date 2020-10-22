@@ -1,10 +1,14 @@
 package br.com.tommiranda;
 
-import br.com.tommiranda.interpreter.*;
+import br.com.tommiranda.interpreter.Evaluator;
+import br.com.tommiranda.interpreter.Parser;
+import br.com.tommiranda.interpreter.Tokenizer;
 import br.com.tommiranda.lang.Global;
 
 import java.util.Deque;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class REPL {
 
@@ -33,10 +37,21 @@ public class REPL {
                 Object expr = Parser.parse(tokens);
                 Object result = Evaluator.eval(expr, Global.getGlobalEnv());
 
-                System.out.println(result);
+                System.out.println(toStrScheme(result));
             } catch (Exception e) {
                 System.out.println(e.toString());
             }
         }
+    }
+
+    private String toStrScheme(Object result) {
+        if (result instanceof List) {
+            String[] expr = ((List<Object>) result).stream()
+                                                   .map(Object::toString).toArray(String[]::new);
+
+            return "(" + String.join(" ", expr) + ")";
+        }
+
+        return result.toString();
     }
 }
