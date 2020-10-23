@@ -207,4 +207,12 @@ public class NumberOperations {
 
         return result.doubleValue();
     }
+
+    public static Number abs(Number a) {
+        if (a instanceof Double) {
+            return Math.abs(a.doubleValue());
+        }
+
+        return ((BigDecimal) a).abs();
+    }
 }

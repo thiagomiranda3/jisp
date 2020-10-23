@@ -78,6 +78,17 @@ public final class MathFunctions {
     }
 
     @GlobalFunction
+    public static Number abs(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("abs", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.abs(number);
+    }
+
+    @GlobalFunction
     public static Number pi(List<Object> numbers) {
         if (numbers.size() > 1) {
             throw new WrongParamsException(ErrorMessages.wrongParamOptional("pi", 1, numbers.size()));

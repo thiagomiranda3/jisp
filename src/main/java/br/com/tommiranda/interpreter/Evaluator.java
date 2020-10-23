@@ -43,6 +43,8 @@ public class Evaluator {
             Symbol symbol = (Symbol) args.get(0);
             env.findEnv(symbol.getName()).put(symbol.getName(), eval(args.get(1), env));
         } else if (op.equals(new Symbol("lambda"))) {
+            // TODO: Arrumar verificação de tipo
+            //List<Symbol> params = (List<Symbol>) ((List) args.get(0)).stream().map(a -> (Symbol) a).collect(Collectors.toList());
             List<Symbol> params = (List<Symbol>) args.get(0);
             Object body = args.get(1);
 
