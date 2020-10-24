@@ -23,6 +23,7 @@ public class Tokenizer {
                    .replace("[", " [ ")
                    .replace(")", " ) ")
                    .replace("]", " ] ")
+                   .replace(";", " ; ")
                    .replace("\"", " \" ");
 
         StringTokenizer tokenizer = new StringTokenizer(expr, " ", true);
@@ -47,7 +48,10 @@ public class Tokenizer {
                 continue;
             } else if (token.equals(" ")) {
                 continue;
-            } else if (token.equals("(") || token.equals("[")) {
+            } else if(token.equals(";")) {
+                break;
+            }
+            else if (token.equals("(") || token.equals("[")) {
                 brackets.add(token);
             } else if (token.equals(")")) {
                 if (brackets.isEmpty() || !brackets.removeLast().equals("(")) {
@@ -66,7 +70,7 @@ public class Tokenizer {
             throw new SyntaxErrorException("Unclosed quotes error");
         }
 
-        parseable = brackets.isEmpty() && !expr.isEmpty();
+        parseable = brackets.isEmpty() && !newTokens.isEmpty();
 
         this.tokens.addAll(newTokens);
 
