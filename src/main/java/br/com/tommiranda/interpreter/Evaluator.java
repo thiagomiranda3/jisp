@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class Evaluator {
 
     public static Object eval(Object val, Env env) {
-        if(val == null) {
+        if (val == null) {
             return null;
         }
 
@@ -20,7 +20,7 @@ public class Evaluator {
         }
 
         List<Object> expr = (List) val;
-        if(expr.isEmpty()) {
+        if (expr.isEmpty()) {
             return null;
         }
 
@@ -34,7 +34,7 @@ public class Evaluator {
             Object then = args.get(1);
             Object otherwise = args.get(2);
 
-            return isTrue(eval(test, env)) ? eval(then, env) : eval(otherwise, env);
+            return Truth.isTrue(eval(test, env)) ? eval(then, env) : eval(otherwise, env);
         } else if (op.equals(new Symbol("define"))) {
             Symbol symbol = (Symbol) args.get(0);
             Object body = args.get(1);
@@ -67,25 +67,5 @@ public class Evaluator {
         }
 
         return null;
-    }
-
-    private static boolean isTrue(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-
-        if (obj instanceof Boolean) {
-            return obj.equals(true);
-        }
-
-        if (obj instanceof List) {
-            return !((List) obj).isEmpty();
-        }
-
-        if (obj instanceof String) {
-            return !((String) obj).isEmpty();
-        }
-
-        return true;
     }
 }

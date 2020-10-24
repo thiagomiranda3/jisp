@@ -1,6 +1,7 @@
 package br.com.tommiranda.lang.functions;
 
 import br.com.tommiranda.exceptions.WrongParamsException;
+import br.com.tommiranda.interpreter.Truth;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.ErrorMessages;
 
@@ -74,5 +75,23 @@ public class FlowFunctions {
         Object b = numbers.get(1);
 
         return a.equals(b);
+    }
+
+    @GlobalFunction("test")
+    public static Object test(List<Object> numbers) {
+        if(numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("test", 1, numbers.size()));
+        }
+
+        return Truth.isTrue(numbers.get(0));
+    }
+
+    @GlobalFunction("not")
+    public static Object not(List<Object> numbers) {
+        if(numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("not", 1, numbers.size()));
+        }
+
+        return !Truth.isTrue(numbers.get(0));
     }
 }

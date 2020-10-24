@@ -5,6 +5,7 @@ import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.ErrorMessages;
 import br.com.tommiranda.utils.NumberOperations;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -67,6 +68,27 @@ public final class MathFunctions {
     }
 
     @GlobalFunction
+    public static Number bigdec(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("bigdec", 1, numbers.size()));
+        }
+
+        return new BigDecimal(numbers.get(0).toString());
+    }
+
+    @GlobalFunction
+    public static Number pow(List<Object> numbers) {
+        if (numbers.size() != 2) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("pow", 2, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+        Number pow = (Number) numbers.get(1);
+
+        return NumberOperations.pow(number, pow);
+    }
+
+    @GlobalFunction
     public static Number sqrt(List<Object> numbers) {
         if (numbers.size() != 1) {
             throw new WrongParamsException(ErrorMessages.wrongParamRequired("sqrt", 1, numbers.size()));
@@ -100,5 +122,149 @@ public final class MathFunctions {
         }
 
         return NumberOperations.pi(precision);
+    }
+
+    @GlobalFunction
+    public static Number sin(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("sin", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.sin(number);
+    }
+
+    @GlobalFunction
+    public static Number cos(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("cos", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.cos(number);
+    }
+
+    @GlobalFunction
+    public static Number tan(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("tan", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.tan(number);
+    }
+
+    @GlobalFunction
+    public static Number asin(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("asin", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.asin(number);
+    }
+
+    @GlobalFunction
+    public static Number acos(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("acos", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.acos(number);
+    }
+
+    @GlobalFunction
+    public static Number atan(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("atan", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.atan(number);
+    }
+
+    @GlobalFunction
+    public static Number atan2(List<Object> numbers) {
+        if (numbers.size() != 2) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("atan2", 2, numbers.size()));
+        }
+
+        Number a = (Number) numbers.get(0);
+        Number b = (Number) numbers.get(1);
+
+        return NumberOperations.atan2(a, b);
+    }
+
+    @GlobalFunction
+    public static Number sinh(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("sinh", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.sinh(number);
+    }
+
+    @GlobalFunction
+    public static Number cosh(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("cosh", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.cosh(number);
+    }
+
+    @GlobalFunction
+    public static Number tanh(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("tanh", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.tanh(number);
+    }
+
+    @GlobalFunction
+    public static Number asinh(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("asinh", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.asinh(number);
+    }
+
+    @GlobalFunction
+    public static Number acosh(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("acosh", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.acosh(number);
+    }
+
+    @GlobalFunction
+    public static Number atanh(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("atanh", 1, numbers.size()));
+        }
+
+        Number number = (Number) numbers.get(0);
+
+        return NumberOperations.atanh(number);
     }
 }

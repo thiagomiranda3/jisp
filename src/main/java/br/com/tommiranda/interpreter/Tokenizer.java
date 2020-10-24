@@ -2,15 +2,19 @@ package br.com.tommiranda.interpreter;
 
 import br.com.tommiranda.exceptions.SyntaxErrorException;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
 
 public class Tokenizer {
 
+    private boolean parseable = false;
     private Deque<String> tokens = new LinkedList<>();
     private ArrayDeque<String> brackets = new ArrayDeque<>();
 
     public boolean isParseable() {
-        return brackets.isEmpty();
+        return parseable;
     }
 
     public Deque<String> tokenize(String expr) {
@@ -58,9 +62,11 @@ public class Tokenizer {
             newTokens.add(token);
         }
 
-        if(!strAcc.isEmpty()) {
+        if (!strAcc.isEmpty()) {
             throw new SyntaxErrorException("Unclosed quotes error");
         }
+
+        parseable = brackets.isEmpty() && !expr.isEmpty();
 
         this.tokens.addAll(newTokens);
 
