@@ -49,6 +49,15 @@ public class CoreFunctions {
         return objects.get(0) instanceof List;
     }
 
+    @GlobalFunction("null?")
+    public static Boolean isNull(List<Object> objects) {
+        if (objects.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("null?", 1, objects.size()));
+        }
+
+        return objects.get(0) == null;
+    }
+
     @GlobalFunction("symbol?")
     public static Boolean isSymbol(List<Object> objects) {
         if (objects.size() != 1) {

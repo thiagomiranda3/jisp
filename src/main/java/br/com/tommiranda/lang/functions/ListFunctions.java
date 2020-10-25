@@ -6,7 +6,6 @@ import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.ErrorMessages;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ListFunctions {
@@ -25,9 +24,22 @@ public class ListFunctions {
     }
 
     @GlobalFunction
-    public static Integer length(List<Object> objects) {
+    public static List<Object> append(List<Object> objects) {
+        if (objects.size() != 2) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("append", 1, objects.size()));
+        }
+
+        List<Object> result = new ArrayList<>();
+        result.addAll((List) objects.get(0));
+        result.addAll((List) objects.get(1));
+
+        return result;
+    }
+
+    @GlobalFunction
+    public static double length(List<Object> objects) {
         if (objects.size() != 1) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("len", 1, objects.size()));
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("length", 1, objects.size()));
         }
 
         return ((List) objects.get(0)).size();
@@ -38,9 +50,20 @@ public class ListFunctions {
         return new ArrayList<>(objects);
     }
 
+    @GlobalFunction("empty?")
+    public static Boolean isEmpty(List<Object> objects) {
+        if (objects.size() != 1) {
+            throw new WrongParamsException(ErrorMessages.wrongParamRequired("empty?", 1, objects.size()));
+        }
+
+        List list = (List) objects.get(0);
+
+        return list.isEmpty();
+    }
+
     @GlobalFunction
     public static Object first(List<Object> objects) {
-        if (objects.size() != 1 || !(objects.get(0) instanceof List)) {
+        if (objects.size() != 1) {
             throw new WrongParamsException(ErrorMessages.wrongParamRequired("first", 1, objects.size()));
         }
 
@@ -51,7 +74,7 @@ public class ListFunctions {
 
     @GlobalFunction
     public static Object rest(List<Object> objects) {
-        if (objects.size() != 1 || !(objects.get(0) instanceof List)) {
+        if (objects.size() != 1) {
             throw new WrongParamsException(ErrorMessages.wrongParamRequired("rest", 1, objects.size()));
         }
 
@@ -62,6 +85,16 @@ public class ListFunctions {
         }
 
         return new ArrayList<>();
+    }
+
+    @GlobalFunction
+    public static Object car(List<Object> objects) {
+        return first(objects);
+    }
+
+    @GlobalFunction
+    public static Object cdr(List<Object> objects) {
+        return rest(objects);
     }
 
     @GlobalFunction
