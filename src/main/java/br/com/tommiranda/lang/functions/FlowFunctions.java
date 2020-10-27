@@ -1,6 +1,6 @@
 package br.com.tommiranda.lang.functions;
 
-import br.com.tommiranda.exceptions.WrongParamsException;
+import br.com.tommiranda.exceptions.WrongArgumentsException;
 import br.com.tommiranda.interpreter.Truth;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.ErrorMessages;
@@ -12,7 +12,7 @@ public class FlowFunctions {
     @GlobalFunction("<=")
     public static Object lessThenOrEqual(List<Object> numbers) {
         if(numbers.size() != 2) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("<=", 2, numbers.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("<=", 2, numbers.size()));
         }
 
         Comparable a = (Comparable) numbers.get(0);
@@ -26,7 +26,7 @@ public class FlowFunctions {
     @GlobalFunction(">=")
     public static Object greaterThenOrEqual(List<Object> numbers) {
         if(numbers.size() != 2) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired(">=", 2, numbers.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired(">=", 2, numbers.size()));
         }
 
         Comparable a = (Comparable) numbers.get(0);
@@ -40,7 +40,7 @@ public class FlowFunctions {
     @GlobalFunction("<")
     public static Object lessThen(List<Object> numbers) {
         if(numbers.size() != 2) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("<", 2, numbers.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("<", 2, numbers.size()));
         }
 
         Comparable a = (Comparable) numbers.get(0);
@@ -54,7 +54,7 @@ public class FlowFunctions {
     @GlobalFunction(">")
     public static Object greaterThen(List<Object> numbers) {
         if(numbers.size() != 2) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired(">", 2, numbers.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired(">", 2, numbers.size()));
         }
 
         Comparable a = (Comparable) numbers.get(0);
@@ -68,7 +68,7 @@ public class FlowFunctions {
     @GlobalFunction("=")
     public static Object equals(List<Object> numbers) {
         if(numbers.size() != 2) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired(">", 2, numbers.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired(">", 2, numbers.size()));
         }
 
         Object a = numbers.get(0);
@@ -80,7 +80,7 @@ public class FlowFunctions {
     @GlobalFunction("test")
     public static Object test(List<Object> numbers) {
         if(numbers.size() != 1) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("test", 1, numbers.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("test", 1, numbers.size()));
         }
 
         return Truth.isTrue(numbers.get(0));
@@ -89,7 +89,7 @@ public class FlowFunctions {
     @GlobalFunction("not")
     public static Object not(List<Object> numbers) {
         if(numbers.size() != 1) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("not", 1, numbers.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("not", 1, numbers.size()));
         }
 
         return !Truth.isTrue(numbers.get(0));

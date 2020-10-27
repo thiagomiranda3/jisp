@@ -10,8 +10,16 @@
 
 (define zip (combine cons))
 
+(zip (list 1) (list 5))
+
+(zip (list 1 2 3 4) (list 5 6 7 8))
+
 (define riff-shuffle (lambda (deck) (begin
     (define take (lambda (n seq) (if (<= n 0) (quote ()) (cons (car seq) (take (- n 1) (cdr seq))))))
     (define drop (lambda (n seq) (if (<= n 0) seq (drop (- n 1) (cdr seq)))))
     (define mid (lambda (seq) (/ (length seq) 2)))
     ((combine append) (take (mid deck) deck) (drop (mid deck) deck)))))
+
+(riff-shuffle (list 1 2 3 4 5 6 7 8))
+
+((repeat riff-shuffle) (list 1 2 3 4 5 6 7 8))

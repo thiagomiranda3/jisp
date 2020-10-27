@@ -1,6 +1,6 @@
 package br.com.tommiranda.lang.functions;
 
-import br.com.tommiranda.exceptions.WrongParamsException;
+import br.com.tommiranda.exceptions.WrongArgumentsException;
 import br.com.tommiranda.interpreter.Symbol;
 import br.com.tommiranda.lang.Func;
 import br.com.tommiranda.lang.GlobalFunction;
@@ -15,7 +15,7 @@ public class CoreFunctions {
     @GlobalFunction
     public static Object type(List<Object> objects) {
         if (objects.size() != 1) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("type", 1, objects.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("type", 1, objects.size()));
         }
 
         return objects.get(0).getClass();
@@ -29,7 +29,7 @@ public class CoreFunctions {
     @GlobalFunction
     public static List<Object> map(List<Object> objects) {
         if (objects.size() != 2) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("<=", 2, objects.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("<=", 2, objects.size()));
         }
 
         Func func = (Func) objects.get(0);
@@ -43,7 +43,7 @@ public class CoreFunctions {
     @GlobalFunction("list?")
     public static Boolean isList(List<Object> objects) {
         if (objects.size() != 1) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("list?", 1, objects.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("list?", 1, objects.size()));
         }
 
         return objects.get(0) instanceof List;
@@ -52,7 +52,7 @@ public class CoreFunctions {
     @GlobalFunction("null?")
     public static Boolean isNull(List<Object> objects) {
         if (objects.size() != 1) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("null?", 1, objects.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("null?", 1, objects.size()));
         }
 
         return objects.get(0) == null;
@@ -61,7 +61,7 @@ public class CoreFunctions {
     @GlobalFunction("symbol?")
     public static Boolean isSymbol(List<Object> objects) {
         if (objects.size() != 1) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("symbol?", 1, objects.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("symbol?", 1, objects.size()));
         }
 
         return objects.get(0) instanceof Symbol;
@@ -70,7 +70,7 @@ public class CoreFunctions {
     @GlobalFunction("number?")
     public static Boolean isNumber(List<Object> objects) {
         if (objects.size() != 1) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("number?", 1, objects.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("number?", 1, objects.size()));
         }
 
         return objects.get(0) instanceof Number;
@@ -79,7 +79,7 @@ public class CoreFunctions {
     @GlobalFunction("function?")
     public static Boolean isFunction(List<Object> objects) {
         if (objects.size() != 1) {
-            throw new WrongParamsException(ErrorMessages.wrongParamRequired("number?", 1, objects.size()));
+            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("number?", 1, objects.size()));
         }
 
         return objects.get(0) instanceof Func;

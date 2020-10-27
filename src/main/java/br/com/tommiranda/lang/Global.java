@@ -12,7 +12,7 @@ import java.util.Set;
 
 public final class Global {
 
-    private static final Env globalEnv = getGlobals();
+    private static final Env env = getGlobals();
 
     private static Env getGlobals() {
         Map<String, Object> mapEnv = new LinkedHashMap<>();
@@ -42,7 +42,15 @@ public final class Global {
         return new Env(mapEnv);
     }
 
-    public static Env getGlobalEnv() {
-        return globalEnv;
+    public static Env getEnv() {
+        return env;
+    }
+
+    public void addSymbol(String name, Object object) {
+        env.addSymbol(name, object);
+    }
+
+    public boolean removeSymbol(String name) {
+        return env.removeSymbol(name);
     }
 }

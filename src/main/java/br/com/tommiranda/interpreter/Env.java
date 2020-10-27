@@ -17,12 +17,17 @@ public final class Env {
         this.env = env;
     }
 
-    public Env(List<Symbol> params, List<Object> values) {
+    public Env(List<Symbol> params, List<Object> arguments, Env outer) {
+        this.outer = outer;
         this.env = Util.createMapFromIterables(params.stream()
                                                      .map(Symbol::getName)
                                                      .collect(Collectors.toList()),
-                                               values,
+                                               arguments,
                                                LinkedHashMap::new);
+    }
+
+    public Map<String, Object> getEnv() {
+        return env;
     }
 
     public void addSymbol(String name, Object object) {
@@ -31,10 +36,6 @@ public final class Env {
 
     public boolean removeSymbol(String name) {
         return env.remove(name) != null;
-    }
-
-    public void setOuterEnv(Env outer) {
-        this.outer = outer;
     }
 
     public Object getSymbolValue(String name) {
