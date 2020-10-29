@@ -62,7 +62,11 @@ public class Evaluator {
                 if (func instanceof Procedure) {
                     Procedure proc = (Procedure) func;
                     val = proc.getBody();
-                    env = new Env(proc.getParams(), arguments, proc.getEnv());
+                    try {
+                        env = new Env(proc.getParams(), arguments, proc.getEnv());
+                    } catch (WrongArgumentsException e) {
+                        throw new WrongArgumentsException(op.toString() + " " + e.getMessage());
+                    }
                 } else {
                     return ((Func) func).exec(arguments);
                 }
@@ -98,6 +102,7 @@ public class Evaluator {
                        .collect(Collectors.toList());
         } else if (op.equals(new Symbol("set!"))) {
             requireSize("set!", args, 2);
+            requireSymbol(op.toString(), args.get(0));
             return Arrays.asList(op, args.get(0), expand(args.get(1), false));
         } else if (op.equals(new Symbol("define")) || op.equals(new Symbol("define-macro"))) {
             requireAtLeast(op.toString(), args, 2);

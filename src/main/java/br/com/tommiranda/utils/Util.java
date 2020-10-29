@@ -56,9 +56,13 @@ public class Util {
     }
 
     // Itera sobre dois iterables alterando o primeiro passado
-    public static <T, Y> Map<T, Y> createMapFromIterables(Iterable<T> iterable1, Iterable<Y> iterable2, Supplier<? extends Map<T, Y>> supplier) {
-        Iterator<T> iter1 = iterable1.iterator();
-        Iterator<Y> iter2 = iterable2.iterator();
+    public static <T, Y> Map<T, Y> createMapFromIterables(List<T> list1, List<Y> list2, Supplier<? extends Map<T, Y>> supplier) {
+        if(list1.size() != list2.size()) {
+            throw new IllegalArgumentException("Lists with diferent sizes");
+        }
+
+        Iterator<T> iter1 = list1.iterator();
+        Iterator<Y> iter2 = list2.iterator();
 
         Map<T, Y> map = supplier.get();
 

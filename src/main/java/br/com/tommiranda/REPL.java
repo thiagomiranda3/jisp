@@ -1,6 +1,7 @@
 package br.com.tommiranda;
 
 import br.com.tommiranda.interpreter.Evaluator;
+import br.com.tommiranda.interpreter.ExprFormater;
 import br.com.tommiranda.interpreter.Parser;
 import br.com.tommiranda.interpreter.Tokenizer;
 import br.com.tommiranda.lang.Global;
@@ -37,28 +38,13 @@ public class REPL {
                 Object expr = Evaluator.expand(Parser.parse(tokens), true);
                 Object result = Evaluator.eval(expr, Global.getEnv());
 
-                String stringExpr = toStrScheme(result);
+                String stringExpr = ExprFormater.format(result);
                 if (Util.stringOK(stringExpr)) {
                     System.out.println(stringExpr);
                 }
             } catch (Exception e) {
-                System.out.println(e.toString());
+                System.out.println(e.getClass().getSimpleName() + ": " + e.getMessage());
             }
         }
-    }
-
-    private String toStrScheme(Object result) {
-        if (result == null) {
-            return null;
-        }
-
-        if (result instanceof List) {
-            String[] expr = ((List<Object>) result).stream()
-                                                   .map(Object::toString).toArray(String[]::new);
-
-            return "(" + String.join(" ", expr) + ")";
-        }
-
-        return result.toString();
     }
 }

@@ -1,6 +1,7 @@
 package br.com.tommiranda.interpreter;
 
 import br.com.tommiranda.exceptions.SymbolUndefinedException;
+import br.com.tommiranda.exceptions.WrongArgumentsException;
 import br.com.tommiranda.utils.Util;
 
 import java.util.LinkedHashMap;
@@ -17,13 +18,25 @@ public final class Env {
         this.env = env;
     }
 
-    public Env(List<Symbol> params, List<Object> arguments, Env outer) {
+    public Env(Object params, List<Object> arguments, Env outer) {
         this.outer = outer;
-        this.env = Util.createMapFromIterables(params.stream()
-                                                     .map(Symbol::getName)
-                                                     .collect(Collectors.toList()),
-                                               arguments,
-                                               LinkedHashMap::new);
+
+        if (params instanceof Symbol) {
+            Symbol sym = (Symbol) params;
+            this.env = new LinkedHashMap<>();
+            this.env.put(sym.getName(), arguments);
+        } else {
+            List<Symbol> symbols = (List<Symbol>) params;
+            try {
+                this.env = Util.createMapFromIterables((symbols).stream()
+                                                                .map(Symbol::getName)
+                                                                .collect(Collectors.toList()),
+                                                       arguments,
+                                                       LinkedHashMap::new);
+            } catch (Exception e) {
+                throw new WrongArgumentsException("function expected " + ExprFormater.format(symbols) + ", found " + ExprFormater.format(arguments));
+            }
+        }
     }
 
     public Map<String, Object> getEnv() {
