@@ -3,7 +3,6 @@ package br.com.tommiranda.lang;
 import br.com.tommiranda.exceptions.WrongArgumentsException;
 import br.com.tommiranda.interpreter.Env;
 import br.com.tommiranda.interpreter.Evaluator;
-import br.com.tommiranda.interpreter.EvaluatorIter;
 import br.com.tommiranda.interpreter.Symbol;
 
 import java.util.List;
@@ -28,7 +27,7 @@ public class Procedure implements Func {
 
         Env funcEnv = new Env(params, arguments, env);
 
-        return EvaluatorIter.eval(body, funcEnv);
+        return Evaluator.eval(body, funcEnv);
     }
 
     public List<Symbol> getParams() {

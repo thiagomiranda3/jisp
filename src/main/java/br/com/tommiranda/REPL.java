@@ -1,7 +1,6 @@
 package br.com.tommiranda;
 
 import br.com.tommiranda.interpreter.Evaluator;
-import br.com.tommiranda.interpreter.EvaluatorIter;
 import br.com.tommiranda.interpreter.Parser;
 import br.com.tommiranda.interpreter.Tokenizer;
 import br.com.tommiranda.lang.Global;
@@ -35,8 +34,8 @@ public class REPL {
                 }
 
                 Deque<String> tokens = tokenizer.getTokens();
-                Object expr = EvaluatorIter.expand(Parser.parse(tokens), true);
-                Object result = EvaluatorIter.eval(expr, Global.getEnv());
+                Object expr = Evaluator.expand(Parser.parse(tokens), true);
+                Object result = Evaluator.eval(expr, Global.getEnv());
 
                 String stringExpr = toStrScheme(result);
                 if (Util.stringOK(stringExpr)) {

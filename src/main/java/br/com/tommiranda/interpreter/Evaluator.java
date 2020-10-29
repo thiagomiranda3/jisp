@@ -6,6 +6,7 @@ import br.com.tommiranda.lang.Global;
 import br.com.tommiranda.lang.Procedure;
 import br.com.tommiranda.utils.ErrorMessages;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,53 +14,60 @@ import java.util.stream.Collectors;
 public class Evaluator {
 
     public static Object eval(Object val, Env env) {
-        if (val == null) {
-            return null;
+        while (true) {
+            if (val == null) {
+                return null;
+            }
+
+            if (val instanceof Symbol) {
+                return env.getSymbolValue(((Symbol) val).getName());
+            } else if (!(val instanceof List)) {
+                return val;
+            }
+
+            List<Object> expr = (List<Object>) val;
+            Object op = expr.get(0);
+            List<Object> args = expr.subList(1, expr.size());
+
+            if (op.equals(new Symbol("quote"))) {
+                return args.get(0);
+            } else if (op.equals(new Symbol("if"))) {
+                Object test = args.get(0);
+                Object then = args.get(1);
+                Object otherwise = args.get(2);
+
+                val = Truth.isTrue(eval(test, env)) ? then : otherwise;
+            } else if (op.equals(new Symbol("define"))) {
+                Symbol symbol = (Symbol) args.get(0);
+                Object body = args.get(1);
+                env.addSymbol(symbol.getName(), eval(body, env));
+                return null;
+            } else if (op.equals(new Symbol("set!"))) {
+                Symbol symbol = (Symbol) args.get(0);
+                env.findEnv(symbol.getName()).put(symbol.getName(), eval(args.get(1), env));
+                return null;
+            } else if (op.equals(new Symbol("lambda"))) {
+                List<Symbol> params = ((List<Symbol>) args.get(0)).stream().map(a -> (Symbol) a).collect(Collectors.toList());
+                Object body = args.get(1);
+
+                return new Procedure(params, body, env);
+            } else {
+                Object func = eval(op, env);
+
+                List<Object> arguments = new ArrayList<>();
+                for (Object arg : args) {
+                    arguments.add(eval(arg, env));
+                }
+
+                if (func instanceof Procedure) {
+                    Procedure proc = (Procedure) func;
+                    val = proc.getBody();
+                    env = new Env(proc.getParams(), arguments, proc.getEnv());
+                } else {
+                    return ((Func) func).exec(arguments);
+                }
+            }
         }
-
-        if (val instanceof Symbol) {
-            return env.getSymbolValue(((Symbol) val).getName());
-        } else if (!(val instanceof List)) {
-            return val;
-        }
-
-        List<Object> expr = (List) val;
-        if (expr.isEmpty()) {
-            return null;
-        }
-
-        Object op = expr.get(0);
-        List<Object> args = expr.subList(1, expr.size());
-
-        if (op.equals(new Symbol("quote"))) {
-            return args.get(0);
-        } else if (op.equals(new Symbol("if"))) {
-            Object test = args.get(0);
-            Object then = args.get(1);
-            Object otherwise = args.get(2);
-
-            return Truth.isTrue(eval(test, env)) ? eval(then, env) : eval(otherwise, env);
-        } else if (op.equals(new Symbol("define"))) {
-            Symbol symbol = (Symbol) args.get(0);
-            Object body = args.get(1);
-            env.addSymbol(symbol.getName(), eval(body, env));
-        } else if (op.equals(new Symbol("set!"))) {
-            Symbol symbol = (Symbol) args.get(0);
-            env.findEnv(symbol.getName()).put(symbol.getName(), eval(args.get(1), env));
-        } else if (op.equals(new Symbol("lambda"))) {
-            List<Symbol> params = ((List<Symbol>) args.get(0)).stream().map(a -> (Symbol) a).collect(Collectors.toList());
-            Object body = args.get(1);
-
-            return new Procedure(params, body, env);
-        } else {
-            Func func = (Func) eval(op, env);
-            List<Object> arguments = args.stream()
-                                         .map(e -> eval(e, env))
-                                         .collect(Collectors.toList());
-            return func.exec(arguments);
-        }
-
-        return null;
     }
 
     public static Object expand(Object val, boolean toplevel) {
@@ -99,10 +107,14 @@ public class Evaluator {
             //(define (f args) body) => (define f (lambda (args) body))
             if (v instanceof List) {
                 List<Object> lbdDef = (List<Object>) v;
-                requireSize("define function", lbdDef, 1);
                 Object f = lbdDef.get(0);
                 List<Object> params = lbdDef.subList(1, lbdDef.size());
-                return expand(Arrays.asList(op, f, Arrays.asList(new Symbol("lambda"), params, body)), false);
+
+                List<Object> lambda = new ArrayList<>();
+                lambda.add(new Symbol("lambda"));
+                lambda.add(params);
+                lambda.addAll(body);
+                return expand(Arrays.asList(op, f, lambda), false);
             } else {
                 requireSize(op.toString(), args, 2);
                 requireSymbol(op.toString(), v);
@@ -132,6 +144,7 @@ public class Evaluator {
         } else if (op.equals(new Symbol("lambda"))) {
             // (lambda (x) e1 e2) => (lambda (x) (begin e1 e2))
             requireAtLeast(op.toString(), args, 2);
+            requireList(op.toString(), args.get(0));
             List<Object> params = (List<Object>) args.get(0);
             List<Object> body = args.subList(1, args.size());
             requireSymbol(op.toString(), params);
@@ -197,6 +210,12 @@ public class Evaluator {
     public static void requireAtLeast(String op, List<Object> list, int size) {
         if (list.size() < size) {
             throw new WrongArgumentsException(ErrorMessages.wrongParamAtLeast(op, size, list.size()));
+        }
+    }
+
+    public static void requireList(String op, Object obj) {
+        if (!(obj instanceof List)) {
+            throw new WrongArgumentsException(op + " contains illegal argument list");
         }
     }
 
