@@ -35,7 +35,7 @@ public class REPL {
                 }
 
                 Deque<String> tokens = tokenizer.getTokens();
-                Object expr = Parser.parse(tokens);
+                Object expr = EvaluatorIter.expand(Parser.parse(tokens), true);
                 Object result = EvaluatorIter.eval(expr, Global.getEnv());
 
                 String stringExpr = toStrScheme(result);

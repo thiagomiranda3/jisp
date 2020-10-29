@@ -1,11 +1,13 @@
 package br.com.tommiranda.lang;
 
 import br.com.tommiranda.interpreter.Env;
+import br.com.tommiranda.interpreter.Symbol;
 import br.com.tommiranda.utils.Util;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +15,7 @@ import java.util.Set;
 public final class Global {
 
     private static final Env env = getGlobals();
+    private static final Map<Symbol, Func> macro_table = new HashMap<>();
 
     private static Env getGlobals() {
         Map<String, Object> mapEnv = new LinkedHashMap<>();
@@ -52,5 +55,17 @@ public final class Global {
 
     public boolean removeSymbol(String name) {
         return env.removeSymbol(name);
+    }
+
+    public static void addMacro(Symbol symbol, Func func) {
+        macro_table.put(symbol, func);
+    }
+
+    public static boolean removeMacro(Symbol symbol) {
+        return macro_table.remove(symbol) != null;
+    }
+
+    public static Func getMacro(Symbol symbol) {
+        return macro_table.get(symbol);
     }
 }
