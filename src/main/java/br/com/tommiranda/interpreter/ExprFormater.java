@@ -25,7 +25,7 @@ public class ExprFormater {
             Double doubleValue = (Double) obj;
 
             if(doubleValue % 1 == 0) {
-                return String.valueOf(doubleValue.intValue());
+                return String.valueOf(doubleValue.longValue());
             }
         } else if(obj instanceof BigDecimal) {
             BigDecimal bigDec = (BigDecimal) obj;
