@@ -1,7 +1,7 @@
 package br.com.tommiranda.interpreter;
 
-import br.com.tommiranda.exceptions.SymbolUndefinedException;
-import br.com.tommiranda.exceptions.WrongArgumentsException;
+import br.com.tommiranda.exceptions.SymbolUndefined;
+import br.com.tommiranda.exceptions.WrongArguments;
 import br.com.tommiranda.utils.Util;
 
 import java.util.LinkedHashMap;
@@ -34,7 +34,7 @@ public final class Env {
                                                        arguments,
                                                        LinkedHashMap::new);
             } catch (Exception e) {
-                throw new WrongArgumentsException("function expected " + ExprFormater.format(symbols) + ", found " + ExprFormater.format(arguments));
+                throw new WrongArguments("function expected " + ExprFormater.format(symbols) + ", found " + ExprFormater.format(arguments));
             }
         }
     }
@@ -62,7 +62,7 @@ public final class Env {
             return outer.getSymbolValue(name);
         }
 
-        throw new SymbolUndefinedException(name + " symbol undefined");
+        throw new SymbolUndefined(name + " symbol undefined");
     }
 
     public Map<String, Object> findEnv(String name) {
@@ -74,6 +74,6 @@ public final class Env {
             return outer.findEnv(name);
         }
 
-        throw new SymbolUndefinedException(name + " symbol undefined");
+        throw new SymbolUndefined(name + " symbol undefined");
     }
 }

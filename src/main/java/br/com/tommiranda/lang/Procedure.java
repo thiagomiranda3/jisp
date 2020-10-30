@@ -1,6 +1,6 @@
 package br.com.tommiranda.lang;
 
-import br.com.tommiranda.exceptions.WrongArgumentsException;
+import br.com.tommiranda.exceptions.WrongArguments;
 import br.com.tommiranda.interpreter.Env;
 import br.com.tommiranda.interpreter.Evaluator;
 import br.com.tommiranda.interpreter.Symbol;
@@ -22,7 +22,7 @@ public class Procedure implements Func {
     @Override
     public Object exec(List<Object> arguments) {
         if (params.size() != arguments.size()) {
-            throw new WrongArgumentsException(arguments.size() + " arguments passed to function, but only " + params.size() + " allowed");
+            throw new WrongArguments(arguments.size() + " arguments passed to function, but only " + params.size() + " allowed");
         }
 
         Env funcEnv = new Env(params, arguments, env);

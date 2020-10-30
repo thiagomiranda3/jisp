@@ -1,6 +1,6 @@
 package br.com.tommiranda.lang.functions;
 
-import br.com.tommiranda.exceptions.WrongArgumentsException;
+import br.com.tommiranda.exceptions.WrongArguments;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.ErrorMessages;
 import br.com.tommiranda.utils.NumberOperations;
@@ -70,7 +70,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number bigdec(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("bigdec", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("bigdec", 1, numbers.size()));
         }
 
         return new BigDecimal(numbers.get(0).toString());
@@ -79,7 +79,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number pow(List<Object> numbers) {
         if (numbers.size() != 2) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("pow", 2, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("pow", 2, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -91,7 +91,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number sqrt(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("sqrt", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("sqrt", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -102,7 +102,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number abs(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("abs", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("abs", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -113,7 +113,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number pi(List<Object> numbers) {
         if (numbers.size() > 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamOptional("pi", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamOptional("pi", 1, numbers.size()));
         }
 
         Number precision = 16d;
@@ -127,7 +127,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number sin(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("sin", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("sin", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -138,7 +138,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number cos(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("cos", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("cos", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -149,7 +149,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number tan(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("tan", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("tan", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -160,7 +160,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number asin(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("asin", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("asin", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -171,7 +171,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number acos(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("acos", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("acos", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -182,7 +182,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number atan(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("atan", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("atan", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -193,7 +193,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number atan2(List<Object> numbers) {
         if (numbers.size() != 2) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("atan2", 2, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("atan2", 2, numbers.size()));
         }
 
         Number a = (Number) numbers.get(0);
@@ -205,7 +205,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number sinh(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("sinh", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("sinh", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -216,7 +216,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number cosh(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("cosh", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("cosh", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -227,7 +227,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number tanh(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("tanh", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("tanh", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -238,7 +238,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number asinh(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("asinh", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("asinh", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -249,7 +249,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number acosh(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("acosh", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("acosh", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);
@@ -260,7 +260,7 @@ public final class MathFunctions {
     @GlobalFunction
     public static Number atanh(List<Object> numbers) {
         if (numbers.size() != 1) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired("atanh", 1, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("atanh", 1, numbers.size()));
         }
 
         Number number = (Number) numbers.get(0);

@@ -1,6 +1,6 @@
 package br.com.tommiranda.interpreter;
 
-import br.com.tommiranda.exceptions.SyntaxErrorException;
+import br.com.tommiranda.exceptions.SyntaxError;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -55,11 +55,11 @@ public class Tokenizer {
                 brackets.add(token);
             } else if (token.equals(")")) {
                 if (brackets.isEmpty() || !brackets.removeLast().equals("(")) {
-                    throw new SyntaxErrorException("Unmatched delimiter (");
+                    throw new SyntaxError("Unmatched delimiter (");
                 }
             } else if (token.equals("]")) {
                 if (brackets.isEmpty() || !brackets.removeLast().equals("[")) {
-                    throw new SyntaxErrorException("Unmatched delimiter [");
+                    throw new SyntaxError("Unmatched delimiter [");
                 }
             }
 
@@ -67,7 +67,7 @@ public class Tokenizer {
         }
 
         if (!strAcc.isEmpty()) {
-            throw new SyntaxErrorException("Unclosed quotes error");
+            throw new SyntaxError("Unclosed quotes error");
         }
 
         parseable = brackets.isEmpty() && !newTokens.isEmpty();

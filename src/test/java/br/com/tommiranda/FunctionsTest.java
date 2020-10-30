@@ -1,6 +1,6 @@
 package br.com.tommiranda;
 
-import br.com.tommiranda.exceptions.SymbolUndefinedException;
+import br.com.tommiranda.exceptions.SymbolUndefined;
 import br.com.tommiranda.interpreter.Tokenizer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +35,7 @@ public class FunctionsTest {
     @Test
     @DisplayName("Test symbol undefined")
     void testSymbolUndefined() {
-        Assertions.assertThrows(SymbolUndefinedException.class, () -> TestUtils.evalExpr("(hello)"));
+        Assertions.assertThrows(SymbolUndefined.class, () -> TestUtils.evalExpr("(hello)"));
     }
 
     @Test

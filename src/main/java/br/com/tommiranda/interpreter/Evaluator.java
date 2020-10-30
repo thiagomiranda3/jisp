@@ -1,6 +1,8 @@
 package br.com.tommiranda.interpreter;
 
-import br.com.tommiranda.exceptions.WrongArgumentsException;
+import br.com.tommiranda.exceptions.DefineMacroError;
+import br.com.tommiranda.exceptions.WrongArguments;
+import br.com.tommiranda.exceptions.SyntaxError;
 import br.com.tommiranda.lang.Func;
 import br.com.tommiranda.lang.Global;
 import br.com.tommiranda.lang.Procedure;
@@ -64,8 +66,8 @@ public class Evaluator {
                     val = proc.getBody();
                     try {
                         env = new Env(proc.getParams(), arguments, proc.getEnv());
-                    } catch (WrongArgumentsException e) {
-                        throw new WrongArgumentsException(op.toString() + " " + e.getMessage());
+                    } catch (WrongArguments e) {
+                        throw new WrongArguments(op.toString() + " " + e.getMessage());
                     }
                 } else {
                     return ((Func) func).exec(arguments);
@@ -127,7 +129,7 @@ public class Evaluator {
 
                 if (op.equals(new Symbol("define-macro"))) {
                     if (!toplevel) {
-                        throw new WrongArgumentsException("define-macro only allowed at top level");
+                        throw new DefineMacroError("define-macro only allowed at top level");
                     }
                     Object func = eval(exp, Global.getEnv());
                     requireFunc(func);
@@ -173,7 +175,7 @@ public class Evaluator {
         }
 
         if (val.equals(new Symbol("unquote-splicing"))) {
-            throw new WrongArgumentsException("can't splice here");
+            throw new SyntaxError("can't splice here");
         }
 
         List<Object> expr = (List<Object>) val;
@@ -208,19 +210,19 @@ public class Evaluator {
 
     public static void requireSize(String op, List<Object> list, int size) {
         if (list.size() > size) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamRequired(op, size, list.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired(op, size, list.size()));
         }
     }
 
     public static void requireAtLeast(String op, List<Object> list, int size) {
         if (list.size() < size) {
-            throw new WrongArgumentsException(ErrorMessages.wrongParamAtLeast(op, size, list.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamAtLeast(op, size, list.size()));
         }
     }
 
     public static void requireList(String op, Object obj) {
         if (!(obj instanceof List)) {
-            throw new WrongArgumentsException(op + " contains illegal argument list");
+            throw new WrongArguments(op + " contains illegal argument list");
         }
     }
 
@@ -232,7 +234,7 @@ public class Evaluator {
                 requireSymbol(op, obj);
             }
         } else if (!(sym instanceof Symbol)) {
-            throw new WrongArgumentsException(sym.toString() + " in " + op + " is not a Symbol");
+            throw new SyntaxError(sym.toString() + " in " + op + " is not a Symbol");
         }
     }
 
@@ -241,6 +243,6 @@ public class Evaluator {
             return;
         }
 
-        throw new WrongArgumentsException("macro must be a procedure");
+        throw new SyntaxError("macro must be a procedure");
     }
 }
