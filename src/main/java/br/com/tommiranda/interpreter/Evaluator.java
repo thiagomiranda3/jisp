@@ -1,8 +1,8 @@
 package br.com.tommiranda.interpreter;
 
 import br.com.tommiranda.exceptions.DefineMacroError;
-import br.com.tommiranda.exceptions.WrongArguments;
 import br.com.tommiranda.exceptions.SyntaxError;
+import br.com.tommiranda.exceptions.WrongArguments;
 import br.com.tommiranda.lang.Func;
 import br.com.tommiranda.lang.Global;
 import br.com.tommiranda.lang.Procedure;
@@ -49,10 +49,13 @@ public class Evaluator {
                 env.findEnv(symbol.getName()).put(symbol.getName(), eval(args.get(1), env));
                 return null;
             } else if (op.equals(new Symbol("lambda"))) {
-                List<Symbol> params = ((List<Symbol>) args.get(0)).stream().map(a -> (Symbol) a).collect(Collectors.toList());
                 Object body = args.get(1);
 
-                return new Procedure(params, body, env);
+                return new Procedure(args.get(0), body, env);
+            } else if (op.equals(new Symbol("begin"))) {
+                for (Object arg : args) {
+                    val = eval(arg, env);
+                }
             } else {
                 Object func = eval(op, env);
 
@@ -103,6 +106,7 @@ public class Evaluator {
                        .map(e -> expand(e, false))
                        .collect(Collectors.toList());
         } else if (op.equals(new Symbol("set!"))) {
+            // (set! non-var exp) => Error
             requireSize("set!", args, 2);
             requireSymbol(op.toString(), args.get(0));
             return Arrays.asList(op, args.get(0), expand(args.get(1), false));
@@ -151,11 +155,18 @@ public class Evaluator {
         } else if (op.equals(new Symbol("lambda"))) {
             // (lambda (x) e1 e2) => (lambda (x) (begin e1 e2))
             requireAtLeast(op.toString(), args, 2);
-            requireList(op.toString(), args.get(0));
-            List<Object> params = (List<Object>) args.get(0);
+            Object params = args.get(0);
             List<Object> body = args.subList(1, args.size());
             requireSymbol(op.toString(), params);
-            Object exp = body.size() == 1 ? body.get(0) : Arrays.asList(new Symbol("begin"), body);
+            Object exp;
+            if (body.size() == 1) {
+                exp = body.get(0);
+            } else {
+                List<Object> beginExp = new ArrayList<>();
+                beginExp.add(new Symbol("begin"));
+                beginExp.addAll(body);
+                exp = Arrays.asList(new Symbol("begin"), beginExp);
+            }
             return Arrays.asList(new Symbol("lambda"), params, expand(exp, false));
         } else if (op.equals(new Symbol("quasiquote"))) {
             requireSize(op.toString(), args, 1);
@@ -209,7 +220,7 @@ public class Evaluator {
     }
 
     public static void requireSize(String op, List<Object> list, int size) {
-        if (list.size() > size) {
+        if (list.size() != size) {
             throw new WrongArguments(ErrorMessages.wrongParamRequired(op, size, list.size()));
         }
     }
@@ -226,15 +237,15 @@ public class Evaluator {
         }
     }
 
-    public static void requireSymbol(String op, Object sym) {
-        if (sym instanceof List) {
-            List<Object> list = (List<Object>) sym;
+    public static void requireSymbol(String op, Object params) {
+        if (params instanceof List) {
+            List<Object> list = (List<Object>) params;
 
             for (Object obj : list) {
                 requireSymbol(op, obj);
             }
-        } else if (!(sym instanceof Symbol)) {
-            throw new SyntaxError(sym.toString() + " in " + op + " is not a Symbol");
+        } else if (!(params instanceof Symbol)) {
+            throw new SyntaxError(params.toString() + " in " + op + " is not a Symbol");
         }
     }
 
