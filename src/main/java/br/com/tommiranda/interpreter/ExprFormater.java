@@ -34,6 +34,8 @@ public class ExprFormater {
                 return bigDec.toBigIntegerExact().toString();
             } catch (Exception e) {
             }
+        } else if(obj instanceof String) {
+            return "\"" + obj + "\"";
         }
 
         return obj.toString();

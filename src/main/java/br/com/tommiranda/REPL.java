@@ -1,9 +1,6 @@
 package br.com.tommiranda;
 
-import br.com.tommiranda.interpreter.Evaluator;
-import br.com.tommiranda.interpreter.ExprFormater;
-import br.com.tommiranda.interpreter.Parser;
-import br.com.tommiranda.interpreter.Tokenizer;
+import br.com.tommiranda.interpreter.*;
 import br.com.tommiranda.lang.Global;
 import br.com.tommiranda.utils.Util;
 
@@ -21,7 +18,7 @@ public class REPL {
     // (/ (* 3 2) (- 10 5))
     // (* 2 3 (- 5 2))
     public void start() {
-        Tokenizer tokenizer = new Tokenizer();
+        Tokenizer2 tokenizer = new Tokenizer2();
 
         while (true) {
             try {

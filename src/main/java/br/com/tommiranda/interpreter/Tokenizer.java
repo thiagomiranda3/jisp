@@ -2,10 +2,9 @@ package br.com.tommiranda.interpreter;
 
 import br.com.tommiranda.exceptions.SyntaxError;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class Tokenizer {
 
@@ -18,6 +17,10 @@ public class Tokenizer {
     }
 
     public Deque<String> tokenize(String expr) {
+        Pattern compile = Pattern.compile(" |\\(|\\)");
+
+        String[] tokens = compile.split(expr);
+
         expr = expr.trim()
                    .replace("(", " ( ")
                    .replace("[", " [ ")
@@ -74,7 +77,9 @@ public class Tokenizer {
 
         this.tokens.addAll(newTokens);
 
-        return new LinkedList<>(tokens);
+        LinkedList<String> regexTokens = new LinkedList<>(Arrays.asList(tokens));
+
+        return new LinkedList<>(this.tokens);
     }
 
     public Deque<String> getTokens() {
