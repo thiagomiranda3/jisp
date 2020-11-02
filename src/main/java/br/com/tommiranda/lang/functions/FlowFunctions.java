@@ -4,6 +4,7 @@ import br.com.tommiranda.exceptions.WrongArguments;
 import br.com.tommiranda.interpreter.Truth;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.ErrorMessages;
+import br.com.tommiranda.utils.FlowOperations;
 
 import java.util.List;
 
@@ -15,12 +16,7 @@ public class FlowFunctions {
             throw new WrongArguments(ErrorMessages.wrongParamRequired("<=", 2, numbers.size()));
         }
 
-        Comparable a = (Comparable) numbers.get(0);
-        Comparable b = (Comparable) numbers.get(1);
-
-        int test = a.compareTo(b);
-
-        return test <= 0;
+        return FlowOperations.lessThenOrEqual((Number) numbers.get(0), (Number) numbers.get(1));
     }
 
     @GlobalFunction(">=")
@@ -29,12 +25,7 @@ public class FlowFunctions {
             throw new WrongArguments(ErrorMessages.wrongParamRequired(">=", 2, numbers.size()));
         }
 
-        Comparable a = (Comparable) numbers.get(0);
-        Comparable b = (Comparable) numbers.get(1);
-
-        int test = a.compareTo(b);
-
-        return test >= 0;
+        return FlowOperations.greaterThenOrEqual((Number) numbers.get(0), (Number) numbers.get(1));
     }
 
     @GlobalFunction("<")
@@ -43,12 +34,7 @@ public class FlowFunctions {
             throw new WrongArguments(ErrorMessages.wrongParamRequired("<", 2, numbers.size()));
         }
 
-        Comparable a = (Comparable) numbers.get(0);
-        Comparable b = (Comparable) numbers.get(1);
-
-        int test = a.compareTo(b);
-
-        return test < 0;
+        return FlowOperations.lessThen((Number) numbers.get(0), (Number) numbers.get(1));
     }
 
     @GlobalFunction(">")
@@ -57,12 +43,7 @@ public class FlowFunctions {
             throw new WrongArguments(ErrorMessages.wrongParamRequired(">", 2, numbers.size()));
         }
 
-        Comparable a = (Comparable) numbers.get(0);
-        Comparable b = (Comparable) numbers.get(1);
-
-        int test = a.compareTo(b);
-
-        return test > 0;
+        return FlowOperations.greaterThen((Number) numbers.get(0), (Number) numbers.get(1));
     }
 
     @GlobalFunction("=")
