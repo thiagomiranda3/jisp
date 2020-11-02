@@ -40,10 +40,10 @@ public class Parser {
                     Double value = Double.valueOf(token);
 
                     if (Double.isInfinite(value) || Double.isNaN(value)) {
-                        throw new ArithmeticException("double overflow");
+                        ast.add(new BigDecimal(token));
+                    } else {
+                        ast.add(value);
                     }
-
-                    ast.add(value);
                 } catch (NumberFormatException | ArithmeticException e) {
                     ast.add(new BigDecimal(token));
                 }
@@ -51,7 +51,7 @@ public class Parser {
                 ast.add(Boolean.valueOf(token));
             } else if (token.equals("null")) {
                 ast.add(null);
-            } else if(aliases.containsKey(token)) {
+            } else if (aliases.containsKey(token)) {
                 return Arrays.asList(aliases.get(token), parse(tokens));
             } else {
                 ast.add(new Symbol(token));
