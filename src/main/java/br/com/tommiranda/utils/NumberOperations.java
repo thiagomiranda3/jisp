@@ -211,65 +211,29 @@ public class NumberOperations {
     }
 
     public static Number divide(Number a, Number b) {
-        if (a instanceof Long && b instanceof Long) {
-            return a.longValue() / b.longValue();
-        }
-
-        if (a instanceof Double && b instanceof Double) {
+        if (ClassUtils.isPrimitiveOrWrapper(a.getClass()) && ClassUtils.isPrimitiveOrWrapper(b.getClass())) {
             double result = a.doubleValue() / b.doubleValue();
 
             if (Double.isInfinite(result) || Double.isNaN(result)) {
-                return new BigDecimal(a.toString()).divide(new BigDecimal(b.toString()), 16, RoundingMode.HALF_EVEN);
+                return new BigDecimal(a.toString()).divide(new BigDecimal(b.toString()), 18, RoundingMode.HALF_EVEN).stripTrailingZeros();
             }
 
             return result;
-        }
-
-        if (a instanceof Long && b instanceof Double) {
-            double result = a.longValue() / b.doubleValue();
-
-            if (Double.isInfinite(result) || Double.isNaN(result)) {
-                return new BigDecimal(a.toString()).divide(new BigDecimal(b.toString()), 16, RoundingMode.HALF_EVEN);
-            }
-
-            return result;
-        }
-
-        if (a instanceof Double && b instanceof Long) {
-            double result = a.doubleValue() / b.longValue();
-
-            if (Double.isInfinite(result) || Double.isNaN(result)) {
-                return new BigDecimal(a.toString()).divide(new BigDecimal(b.toString()), 16, RoundingMode.HALF_EVEN);
-            }
-
-            return result;
-        }
-
-        if (a instanceof BigInteger && b instanceof BigInteger) {
-            return ((BigInteger) a).divide((BigInteger) b);
-        }
-
-        if (a instanceof BigInteger && b instanceof Long) {
-            return ((BigInteger) a).divide(new BigInteger(b.toString()));
-        }
-
-        if (a instanceof Long && b instanceof BigInteger) {
-            return new BigInteger(a.toString()).divide((BigInteger) b);
         }
 
         if (a instanceof BigDecimal && b instanceof BigDecimal) {
-            return ((BigDecimal) a).divide((BigDecimal) b, 16, RoundingMode.HALF_EVEN);
+            return ((BigDecimal) a).divide((BigDecimal) b, 18, RoundingMode.HALF_EVEN).stripTrailingZeros();
         }
 
         if (a instanceof BigDecimal) {
-            return ((BigDecimal) a).divide(new BigDecimal(b.toString()), 16, RoundingMode.HALF_EVEN);
+            return ((BigDecimal) a).divide(new BigDecimal(b.toString()), 18, RoundingMode.HALF_EVEN).stripTrailingZeros();
         }
 
         if (b instanceof BigDecimal) {
-            return new BigDecimal(a.toString()).divide((BigDecimal) b, 16, RoundingMode.HALF_EVEN);
+            return new BigDecimal(a.toString()).divide((BigDecimal) b, 18, RoundingMode.HALF_EVEN).stripTrailingZeros();
         }
 
-        return new BigDecimal(a.toString()).divide(new BigDecimal(b.toString()), 16, RoundingMode.HALF_EVEN);
+        return new BigDecimal(a.toString()).divide(new BigDecimal(b.toString()), 18, RoundingMode.HALF_EVEN).stripTrailingZeros();
     }
 
     public static Number remainder(Number a, Number b) {

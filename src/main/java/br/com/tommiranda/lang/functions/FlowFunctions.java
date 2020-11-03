@@ -49,7 +49,23 @@ public class FlowFunctions {
     @GlobalFunction("=")
     public static Object equals(List<Object> numbers) {
         if(numbers.size() != 2) {
-            throw new WrongArguments(ErrorMessages.wrongParamRequired(">", 2, numbers.size()));
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("=", 2, numbers.size()));
+        }
+
+        Object a = numbers.get(0);
+        Object b = numbers.get(1);
+
+        if (a instanceof Number && b instanceof Number) {
+            return FlowOperations.equals((Number) a, (Number) b);
+        }
+
+        return a.equals(b);
+    }
+
+    @GlobalFunction("==")
+    public static Object equalsExact(List<Object> numbers) {
+        if(numbers.size() != 2) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("==", 2, numbers.size()));
         }
 
         Object a = numbers.get(0);
