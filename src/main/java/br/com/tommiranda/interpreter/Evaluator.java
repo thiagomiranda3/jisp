@@ -15,6 +15,10 @@ import java.util.stream.Collectors;
 
 public class Evaluator {
 
+    public static Object evalExpanded(Object val, Env env) {
+        return eval(expand(val, true), env);
+    }
+
     public static Object eval(Object val, Env env) {
         while (true) {
             if (val == null) {

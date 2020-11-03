@@ -32,8 +32,7 @@ public class REPL {
                 }
 
                 Deque<String> tokens = tokenizer.getTokens();
-                Object expr = Evaluator.expand(Parser.parse(tokens), true);
-                Object result = Evaluator.eval(expr, Global.getEnv());
+                Object result = Evaluator.evalExpanded(Parser.parse(tokens), Global.getEnv());
 
                 String stringExpr = ExprFormater.format(result);
                 if (Util.stringOK(stringExpr)) {

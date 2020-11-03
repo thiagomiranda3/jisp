@@ -8,6 +8,6 @@ import br.com.tommiranda.lang.Global;
 public class TestUtils {
 
     public static Object evalExpr(String input) {
-        return Evaluator.eval(Parser.parse(new Tokenizer().tokenize(input)), Global.getEnv());
+        return Evaluator.evalExpanded(Parser.parse(new Tokenizer().tokenize(input)), Global.getEnv());
     }
 }
