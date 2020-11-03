@@ -3,6 +3,7 @@ package br.com.tommiranda.interpreter;
 import org.apache.commons.lang3.math.NumberUtils;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.*;
 
 public class Parser {
@@ -35,6 +36,16 @@ public class Parser {
                 readAsString = !readAsString;
             } else if (readAsString) {
                 ast.add(token);
+            } else if(token.startsWith("0x")) {
+                ast.add(Long.valueOf(token.substring(2), 16));
+            } else if(token.startsWith("0b")) {
+                ast.add(Long.valueOf(token.substring(2), 2));
+            } else if (NumberUtils.isDigits(token)) {
+                try {
+                    ast.add(Long.valueOf(token));
+                } catch (NumberFormatException | ArithmeticException e) {
+                    ast.add(new BigInteger(token));
+                }
             } else if (NumberUtils.isCreatable(token)) {
                 try {
                     Double value = Double.valueOf(token);

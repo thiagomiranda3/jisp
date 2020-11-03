@@ -6,6 +6,7 @@ import br.com.tommiranda.utils.ErrorMessages;
 import br.com.tommiranda.utils.NumberOperations;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -74,6 +75,51 @@ public final class MathFunctions {
         }
 
         return new BigDecimal(numbers.get(0).toString());
+    }
+
+    @GlobalFunction
+    public static Number bigint(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("bigint", 1, numbers.size()));
+        }
+
+        return new BigInteger(numbers.get(0).toString());
+    }
+
+    @GlobalFunction("double")
+    public static Number doubleValue(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("double", 1, numbers.size()));
+        }
+
+        return ((Number) numbers.get(0)).doubleValue();
+    }
+
+    @GlobalFunction("long")
+    public static Number longValue(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("long", 1, numbers.size()));
+        }
+
+        return ((Number) numbers.get(0)).longValue();
+    }
+
+    @GlobalFunction("hex-string")
+    public static String hexString(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("hex-string", 1, numbers.size()));
+        }
+
+        return Long.toHexString(((Long) numbers.get(0))).toUpperCase();
+    }
+
+    @GlobalFunction("bin-string")
+    public static String binString(List<Object> numbers) {
+        if (numbers.size() != 1) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("bin-string", 1, numbers.size()));
+        }
+
+        return Long.toBinaryString(((Long) numbers.get(0)));
     }
 
     @GlobalFunction

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 
 public class FunctionsTest {
 
@@ -14,13 +15,13 @@ public class FunctionsTest {
     @DisplayName("Test sum: (+ 1 2 3 4)")
     void testSimpleSum() {
         Object result = TestUtils.evalExpr("(+ 1 2 3 4)");
-        Assertions.assertEquals(10.0d, result);
+        Assertions.assertEquals(10L, result);
     }
 
     @Test
     @DisplayName("Test div: (/ (* 3 2) (- 10 5))")
     void testDiv() {
-        Object result = TestUtils.evalExpr("(/ (* 3 2) (- 10 5))");
+        Object result = TestUtils.evalExpr("(/ (* 3.0 2) (- 10.0 5))");
         Assertions.assertEquals(1.2d, result);
     }
 
@@ -43,7 +44,7 @@ public class FunctionsTest {
     void testDefineSymbol() {
         TestUtils.evalExpr("(define r 10)");
         Object result = TestUtils.evalExpr("r");
-        Assertions.assertEquals(10d, result);
+        Assertions.assertEquals(10L, result);
     }
 
     @Test
@@ -60,9 +61,9 @@ public class FunctionsTest {
         TestUtils.evalExpr("(define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))");
 
         Object doubleValue = TestUtils.evalExpr("(type (fact 10))");
-        Object bigDecimalValue = TestUtils.evalExpr("(type (fact 175))");
+        Object bigIntValue = TestUtils.evalExpr("(type (fact 175))");
 
-        Assertions.assertEquals(Double.class, doubleValue);
-        Assertions.assertEquals(BigDecimal.class, bigDecimalValue);
+        Assertions.assertEquals(Long.class, doubleValue);
+        Assertions.assertEquals(BigInteger.class, bigIntValue);
     }
 }
