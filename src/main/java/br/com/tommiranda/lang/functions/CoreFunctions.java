@@ -6,6 +6,8 @@ import br.com.tommiranda.lang.Func;
 import br.com.tommiranda.lang.GlobalFunction;
 import br.com.tommiranda.utils.ErrorMessages;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,6 +76,51 @@ public class CoreFunctions {
         }
 
         return objects.get(0) instanceof Number;
+    }
+
+    @GlobalFunction("bigdec?")
+    public static Boolean isBigDec(List<Object> objects) {
+        if (objects.size() != 1) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("bigdec?", 1, objects.size()));
+        }
+
+        return objects.get(0) instanceof BigDecimal;
+    }
+
+    @GlobalFunction("bigint?")
+    public static Boolean isBigInt(List<Object> objects) {
+        if (objects.size() != 1) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("bigint?", 1, objects.size()));
+        }
+
+        return objects.get(0) instanceof BigInteger;
+    }
+
+    @GlobalFunction("long?")
+    public static Boolean isLong(List<Object> objects) {
+        if (objects.size() != 1) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("long?", 1, objects.size()));
+        }
+
+        return objects.get(0) instanceof Long;
+    }
+
+    @GlobalFunction("double?")
+    public static Boolean isDouble(List<Object> objects) {
+        if (objects.size() != 1) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("double?", 1, objects.size()));
+        }
+
+        return objects.get(0) instanceof Double;
+    }
+
+    @GlobalFunction("string?")
+    public static Boolean isString(List<Object> objects) {
+        if (objects.size() != 1) {
+            throw new WrongArguments(ErrorMessages.wrongParamRequired("string?", 1, objects.size()));
+        }
+
+        return objects.get(0) instanceof String;
     }
 
     @GlobalFunction("function?")
