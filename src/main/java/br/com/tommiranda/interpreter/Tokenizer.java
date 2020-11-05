@@ -32,20 +32,18 @@ public class Tokenizer {
         StringBuilder tokenAcc = new StringBuilder();
         Deque<String> newTokens = new LinkedList<>();
 
-        char[] array_expr = expr.toCharArray();
-
         for (int i = 0; i < expr.length(); i++) {
             char c = expr.charAt(i);
 
             if (c == '"') {
                 readAsString = !readAsString;
 
+                strAcc.append(c);
+
                 if (!readAsString) {
                     newTokens.add(strAcc.toString());
                     strAcc = new StringBuilder();
                 }
-
-                newTokens.add(String.valueOf(c));
             } else if (readAsString) {
                 strAcc.append(c);
             } else if (c == ' ') {
