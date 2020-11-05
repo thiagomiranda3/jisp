@@ -5,7 +5,6 @@ import br.com.tommiranda.lang.Global;
 import br.com.tommiranda.utils.Util;
 
 import java.util.Deque;
-import java.util.List;
 import java.util.Scanner;
 
 public class REPL {
@@ -18,7 +17,7 @@ public class REPL {
     // (/ (* 3 2) (- 10 5))
     // (* 2 3 (- 5 2))
     public void start() {
-        Tokenizer2 tokenizer = new Tokenizer2();
+        Tokenizer tokenizer = new Tokenizer();
 
         while (true) {
             try {
