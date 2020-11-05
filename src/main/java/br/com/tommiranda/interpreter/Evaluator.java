@@ -190,11 +190,11 @@ public class Evaluator {
             return Arrays.asList(new Symbol("quote"), val);
         }
 
-        if (val.equals(new Symbol("unquote-splicing"))) {
+        List<Object> expr = (List<Object>) val;
+
+        if (expr.get(0).equals(new Symbol("unquote-splicing"))) {
             throw new SyntaxError("can't splice here");
         }
-
-        List<Object> expr = (List<Object>) val;
 
         if (expr.get(0).equals(new Symbol("unquote"))) {
             requireSize("unquote", expr, 2);
