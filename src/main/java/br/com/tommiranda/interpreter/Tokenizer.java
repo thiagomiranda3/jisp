@@ -32,7 +32,11 @@ public class Tokenizer {
         StringBuilder tokenAcc = new StringBuilder();
         Deque<String> newTokens = new LinkedList<>();
 
-        for (char c : expr.toCharArray()) {
+        char[] array_expr = expr.toCharArray();
+
+        for (int i = 0; i < expr.length(); i++) {
+            char c = expr.charAt(i);
+
             if (c == '"') {
                 readAsString = !readAsString;
 
@@ -74,17 +78,21 @@ public class Tokenizer {
                     throw new SyntaxError("Unmatched delimiter [");
                 }
 
-                if(!tokenAcc.isEmpty()) {
+                if (!tokenAcc.isEmpty()) {
                     newTokens.add(tokenAcc.toString());
                     tokenAcc = new StringBuilder();
                 }
 
                 newTokens.add(String.valueOf(c));
+            } else if (c == ',' && expr.charAt(i + 1) == '@') {
+                newTokens.add(",@");
+                i++;
             } else if(delimiters.containsKey(String.valueOf(c))) {
                 if(!tokenAcc.isEmpty()) {
                     newTokens.add(tokenAcc.toString());
                     tokenAcc = new StringBuilder();
                 }
+
                 newTokens.add(String.valueOf(c));
             } else {
                 tokenAcc.append(c);
