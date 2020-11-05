@@ -6,12 +6,13 @@ import br.com.tommiranda.exceptions.WrongArguments;
 import br.com.tommiranda.lang.Func;
 import br.com.tommiranda.lang.Global;
 import br.com.tommiranda.lang.Procedure;
-import br.com.tommiranda.utils.ErrorMessages;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static br.com.tommiranda.utils.ParamsValidator.*;
 
 public class Evaluator {
 
@@ -74,7 +75,7 @@ public class Evaluator {
                     try {
                         env = new Env(proc.getParams(), arguments, proc.getEnv());
                     } catch (WrongArguments e) {
-                        throw new WrongArguments(op.toString() + " " + e.getMessage());
+                        throw new WrongArguments(ExprFormater.format(op) + " " + e.getMessage());
                     }
                 } else {
                     return ((Func) func).exec(arguments);
@@ -221,43 +222,5 @@ public class Evaluator {
         }
 
         return false;
-    }
-
-    public static void requireSize(String op, List<Object> list, int size) {
-        if (list.size() != size) {
-            throw new WrongArguments(ErrorMessages.wrongParamRequired(op, size, list.size()));
-        }
-    }
-
-    public static void requireAtLeast(String op, List<Object> list, int size) {
-        if (list.size() < size) {
-            throw new WrongArguments(ErrorMessages.wrongParamAtLeast(op, size, list.size()));
-        }
-    }
-
-    public static void requireList(String op, Object obj) {
-        if (!(obj instanceof List)) {
-            throw new WrongArguments(op + " contains illegal argument list");
-        }
-    }
-
-    public static void requireSymbol(String op, Object params) {
-        if (params instanceof List) {
-            List<Object> list = (List<Object>) params;
-
-            for (Object obj : list) {
-                requireSymbol(op, obj);
-            }
-        } else if (!(params instanceof Symbol)) {
-            throw new SyntaxError(params.toString() + " in " + op + " is not a Symbol");
-        }
-    }
-
-    public static void requireFunc(Object func) {
-        if (func instanceof Func) {
-            return;
-        }
-
-        throw new SyntaxError("macro must be a procedure");
     }
 }

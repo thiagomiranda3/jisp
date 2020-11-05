@@ -1,30 +1,21 @@
 package br.com.tommiranda.interpreter;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public class ExprFormater {
 
-    public static String format(Object result) {
-        if (result == null) {
+    public static String format(Object val) {
+        if (val == null) {
             return null;
-        }
-
-        if (result instanceof List) {
-            String[] expr = ((List<Object>) result).stream()
-                                                   .map(ExprFormater::toStringAtom).toArray(String[]::new);
+        } else if (val instanceof String) {
+            return "\"" + val + "\"";
+        } else if (val instanceof List) {
+            String[] expr = ((List<Object>) val).stream()
+                                                   .map(ExprFormater::format).toArray(String[]::new);
 
             return "(" + String.join(" ", expr) + ")";
         }
 
-        return toStringAtom(result);
-    }
-
-    private static String toStringAtom(Object obj) {
-        if(obj instanceof String) {
-            return "\"" + obj + "\"";
-        }
-
-        return obj.toString();
+        return val.toString();
     }
 }

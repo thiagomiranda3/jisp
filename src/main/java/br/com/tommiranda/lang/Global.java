@@ -14,8 +14,8 @@ import java.util.Set;
 
 public final class Global {
 
-    private static final Env env = getGlobals();
     private static final Map<Symbol, Func> macro_table = new HashMap<>();
+    private static final Env env = getGlobals();
 
     private static Env getGlobals() {
         Map<String, Object> mapEnv = new LinkedHashMap<>();
@@ -42,19 +42,32 @@ public final class Global {
             });
         }
 
+        annotatedMethods = reflections.getMethodsAnnotatedWith(GlobalMacro.class);
+
+        for (Method method : annotatedMethods) {
+            String macroName = method.getAnnotation(GlobalMacro.class).value();
+            if (Util.isNullOrEmpty(macroName)) {
+                macroName = method.getName();
+            }
+
+            macro_table.put(new Symbol(macroName), values -> {
+                try {
+                    return method.invoke(null, values);
+                } catch (Exception e) {
+                    if (e.getCause() != null) {
+                        throw (RuntimeException) e.getCause();
+                    }
+
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+
         return new Env(mapEnv);
     }
 
     public static Env getEnv() {
         return env;
-    }
-
-    public void addSymbol(String name, Object object) {
-        env.addSymbol(name, object);
-    }
-
-    public boolean removeSymbol(String name) {
-        return env.removeSymbol(name);
     }
 
     public static void addMacro(Symbol symbol, Func func) {
@@ -67,5 +80,13 @@ public final class Global {
 
     public static Func getMacro(Symbol symbol) {
         return macro_table.get(symbol);
+    }
+
+    public void addSymbol(String name, Object object) {
+        env.addSymbol(name, object);
+    }
+
+    public boolean removeSymbol(String name) {
+        return env.removeSymbol(name);
     }
 }
