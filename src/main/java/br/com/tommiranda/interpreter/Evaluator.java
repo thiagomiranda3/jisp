@@ -58,8 +58,12 @@ public class Evaluator {
 
                 return new Procedure(args.get(0), body, env);
             } else if (op.equals(new Symbol("begin"))) {
-                for (Object arg : args) {
-                    val = eval(arg, env);
+                for(int i = 0; i < args.size(); i++) {
+                    if(i == args.size() - 1) {
+                        val = args.get(i);
+                    } else {
+                        eval(args.get(i), env);
+                    }
                 }
             } else {
                 Object func = eval(op, env);
