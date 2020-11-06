@@ -20,6 +20,6 @@
     (define mid (lambda (seq) (/ (length seq) 2)))
     ((combine append) (take (mid deck) deck) (drop (mid deck) deck)))))
 
-(riff-shuffle (list 1 2 3 4 5 6 7 8))
+(println (riff-shuffle (list 1 2 3 4 5 6 7 8)))
 
-((repeat riff-shuffle) (list 1 2 3 4 5 6 7 8))
+(println ((repeat riff-shuffle) (list 1 2 3 4 5 6 7 8)))

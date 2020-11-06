@@ -6,5 +6,7 @@ public class Main {
         if (args.length == 0) {
             new REPL().start();
         }
+
+        Reader.read(args[0]);
     }
 }

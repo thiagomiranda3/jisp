@@ -46,7 +46,7 @@ public class Tokenizer {
                 }
             } else if (readAsString) {
                 strAcc.append(c);
-            } else if (c == ' ') {
+            } else if (c == ' ' || c == '\t' || c == '\r' || c == '\n') {
                 if (!tokenAcc.isEmpty()) {
                     newTokens.add(tokenAcc.toString());
                     tokenAcc = new StringBuilder();
