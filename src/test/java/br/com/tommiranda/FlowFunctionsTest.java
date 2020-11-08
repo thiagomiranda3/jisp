@@ -7,6 +7,16 @@ import org.junit.jupiter.api.Test;
 public class FlowFunctionsTest {
 
     @Test
+    @DisplayName("Test if")
+    void testIfs() {
+        Object result = TestUtils.evalExpr("(if (> 6 5) (+ 1 1) (+ 2 2))");
+        Assertions.assertEquals(2L, result);
+
+        result = TestUtils.evalExpr("(if (< 6 5) (+ 1 1) (+ 2 2))");
+        Assertions.assertEquals(4L, result);
+    }
+
+    @Test
     @DisplayName("Test lessThenOrEqual")
     void lessThenOrEqual() {
         Object result = TestUtils.evalExpr("(<= 1 2)");

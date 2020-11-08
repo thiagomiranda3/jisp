@@ -16,28 +16,6 @@ import java.util.stream.Collectors;
 public class CoreFunctions {
 
     @GlobalFunction
-    public static Object println(List<Object> objects) {
-        String string = objects.stream()
-                                .map(ExprFormater::format)
-                                .collect(Collectors.joining(" "));
-
-        System.out.println(string);
-
-        return null;
-    }
-
-    @GlobalFunction
-    public static Object print(List<Object> objects) {
-        String string = objects.stream()
-                               .map(ExprFormater::format)
-                               .collect(Collectors.joining(" "));
-
-        System.out.print(string);
-
-        return null;
-    }
-
-    @GlobalFunction
     public static Object type(List<Object> objects) {
         if (objects.size() != 1) {
             throw new WrongArguments(ErrorMessages.wrongParamRequired("type", 1, objects.size()));
