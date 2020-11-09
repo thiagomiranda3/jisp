@@ -23,6 +23,11 @@ public class Util {
         return map != null ? map : Collections.emptyMap();
     }
 
+    public static boolean isGenericType(Class<?> clazz) throws ClassNotFoundException
+    {
+        return clazz.getTypeParameters().length > 0;
+    }
+
     public static boolean isNullOrEmpty(String string) {
         return (string == null || string.isEmpty());
     }
