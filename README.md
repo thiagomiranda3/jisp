@@ -16,7 +16,7 @@ As funcionalidades do Jisp são:
 2) Suporte aos tipos númericos: Long, Double, BigInteger e BigDecimal
 3) Promoção automática de Long para BigInteger e Double para BigDecimal caso seja necessário
 4) Tail Call Elimination se utilizar acumuladores nas funções recursivas
-5) Java Iterop: Pode criar objetos e invokar métodos
+5) Java Iterop: Pode-se criar objetos e invocar métodos
 6) Suporte a Macros
 
 ## Exemplos
