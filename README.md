@@ -5,7 +5,7 @@ Pequeno interpretador de expressões Lisp
 
 Esse é um projeto que eu fiz como hobby com a intenção de aprender como criar um interpretador.
 
-Como um Lisp é uma das linguagens mais simples de se implementar, pela sua sintaxe simples, decidi criar uma versão da linguagem Scheme.
+Como um Lisp é uma das linguagens mais fáceis de se implementar, pela sua sintaxe simples, decidi criar uma versão da linguagem Scheme.
 
 Fiz esse interpretador me baseando em [dois][lispy] [artigos][lispy2] do [Peter Norvig][Peter Norvig], onde ele cria uma versão do Scheme em Python:
 
