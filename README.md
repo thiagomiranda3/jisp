@@ -19,7 +19,7 @@ The features of Jisp are:
 5) Java Iterop: You can create and execute Java methods
 6) Macro support
 
-## Exemples
+## Examples
 
 ### Math operations
 
