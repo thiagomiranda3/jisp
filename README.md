@@ -43,7 +43,7 @@ As funcionalidades do Jisp são:
 (invoke dados "put" '("nome" "thiago"))
 (invoke dados "put" '("profissão" "programador"))
 
-dados => {"nome": "thiago, "profissão": "programador"}
+dados => ; {"nome": "thiago, "profissão": "programador"}
 
 ; Composição de Funções
 (define compose (lambda (f g) (lambda (x) (f (g x)))))
