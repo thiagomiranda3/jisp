@@ -3,7 +3,7 @@ Small Lisp expression interpreter made in Java
 
 ---
 
-I created this project as a hobby to learn how to build an Interpreter.
+I created this project as a hobby to learn how to build an Interpreter. Right now the project has around 2400 lines of code.
 
 As Lisp is one of the easiest languages to create, because of it's simple syntax, I decided to create a Scheme dialect in Java
 
