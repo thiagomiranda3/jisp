@@ -21,34 +21,49 @@ As funcionalidades do Jisp são:
 
 ## Exemplos
 
+### Operações Numéricas
+
 ```scheme
-; Soma
 (+ 1 2 3 4) ==> 10
 
-; Auto promoção de tipos numéricos
+(/ (* 3.0 2) (- 10.0 5)) ==> 1.2
+
+; PI com número de casas arbitrárias
+(pi 50) => 3.1415926535897932384626433832795028841971693993751
+```
+
+### Auto promoção de tipos numéricos
+
+```scheme
 (+ 3 (bigdec 2.5)) ==> 5.5
 
 (define fact (lambda (n) (if (<= n 1) 1 (* n (fact (- n 1))))))
 (type (fact 10)) ==> class java.lang.Long
 (type (fact 175)) ==> class java.math.BigInteger
+```
 
-; PI com número de casas arbitrárias
-(pi 50) => 3.1415926535897932384626433832795028841971693993751
+### Avisos de erros de sintaxe
 
-; Avisos de erro de sintaxe
+```scheme
 (define (mulDiv x y z) (/ (* x y) z))
 
 (mulDiv 10 2 4) ==> 5.0
 (mulDiv 1 2 3 4 5) ==> WrongArguments: mulDiv function expected (x y z), found (1 2 3 4 5)
+```
 
-; Invocando classes e métodos do Java
+### Invocando classes e métodos do Java
+
+```scheme
 (define dados (new-object "java.util.HashMap" '()))
 (invoke dados "put" '("nome" "thiago"))
 (invoke dados "put" '("profissão" "programador"))
 
-dados ==> ; {"nome": "thiago, "profissão": "programador"}
+dados ==> {"nome": "thiago, "profissão": "programador"}
+```
 
-; Composição de Funções
+### Composição de Funções
+
+```scheme
 (define compose (lambda (f g) (lambda (x) (f (g x)))))
 
 (define repeat (lambda (f) (compose f f)))
@@ -68,8 +83,10 @@ dados ==> ; {"nome": "thiago, "profissão": "programador"}
     ((combine append) (take (mid deck) deck) (drop (mid deck) deck)))))
 
 ((repeat riff-shuffle) (list 1 2 3 4 5 6 7 8)) ==> (1 3 5 7 2 4 6 8)
+```
 
-; Macros
+### Macros
+```scheme
 (define-macro unless (lambda args `(if (not ,(car args)) (begin ,@(cdr args)))))
 
 (unless (= 4 (+ 1 1)) 3 4) ==> 4
