@@ -1,38 +1,38 @@
 # Jisp
-Pequeno interpretador de expressões Lisp
+Small Lisp expression interpreter made in Java
 
 ---
 
-Esse é um projeto que eu fiz como hobby com a intenção de aprender como criar um interpretador.
+I created this project as a hobby to learn how to build an Interpreter.
 
-Como um Lisp é uma das linguagens mais fáceis de se implementar, pela sua sintaxe simples, decidi criar uma versão da linguagem Scheme.
+As Lisp is one of the easiest languages to create, because of it's simple syntax, I decided to create a Scheme dialect in Java
 
-Fiz esse interpretador me baseando em [dois][lispy] [artigos][lispy2] do [Peter Norvig][Peter Norvig], onde ele cria uma versão do Scheme em Python:
+I made this interpreter basing on [two][lispy] [articles][lispy2] from [Peter Norvig][Peter Norvig], where he creates a version of the Scheme in Python. 
 
-As funcionalidades do Jisp são:
+The features of Jisp are:
 
-1) REPL ou leitura de um arquivo com as expressões
-2) Suporte a comentários que começam com o caracter ;
-2) Suporte aos tipos númericos: Long, Double, BigInteger e BigDecimal
-3) Promoção automática de Long para BigInteger e Double para BigDecimal caso seja necessário
-4) Tail Call Elimination se utilizar acumuladores nas funções recursivas
-5) Java Iterop: Pode-se criar objetos e invocar métodos
-6) Suporte a Macros
+1) You can execute the REPL or write your code in a file
+2) Support for comments that begin with the character ;
+2) Support for numeric types: Long, Double, BigInteger e BigDecimal
+3) Automatic Long promotion for BigInteger and Double for BigDecimal if necessary
+4) Tail Call Elimination if you use accumulators in recursive functions
+5) Java Iterop: You can create and execute Java methods
+6) Macro support
 
-## Exemplos
+## Exemples
 
-### Operações Numéricas
+### Math operations
 
 ```scheme
 (+ 1 2 3 4) ==> 10
 
 (/ (* 3.0 2) (- 10.0 5)) ==> 1.2
 
-; PI com número de casas arbitrárias
+; PI with arbitrary number of decimal places
 (pi 50) => 3.1415926535897932384626433832795028841971693993751
 ```
 
-### Auto promoção de tipos numéricos
+### Self promotion of numeric types
 
 ```scheme
 (+ 3 (bigdec 2.5)) ==> 5.5
@@ -42,7 +42,7 @@ As funcionalidades do Jisp são:
 (type (fact 175)) ==> class java.math.BigInteger
 ```
 
-### Avisos de erros de sintaxe
+### Syntax error warnings
 
 ```scheme
 (define (mulDiv x y z) (/ (* x y) z))
@@ -51,7 +51,7 @@ As funcionalidades do Jisp são:
 (mulDiv 1 2 3 4 5) ==> WrongArguments: mulDiv function expected (x y z), found (1 2 3 4 5)
 ```
 
-### Invocando classes e métodos do Java
+###  Invoking Java classes and methods
 
 ```scheme
 (define dados (new-object "java.util.HashMap" '()))
@@ -61,7 +61,7 @@ As funcionalidades do Jisp são:
 dados ==> {"nome": "thiago, "profissão": "programador"}
 ```
 
-### Composição de Funções
+### Function Composition
 
 ```scheme
 (define compose (lambda (f g) (lambda (x) (f (g x)))))
@@ -92,9 +92,9 @@ dados ==> {"nome": "thiago, "profissão": "programador"}
 (unless (= 4 (+ 1 1)) 3 4) ==> 4
 ```
 
-## Rodando
+## Running
 
-Para testar o Jisp, basta compilá-lo com o maven e rodar o jisp.jar. Um REPL vai aparecer para que você coloque expressões Lisp.
+To test Jisp, just compile it with maven and run jisp.jar. A REPL will appear for you to place Lisp expressions.
 
 [Peter Norvig]: https://norvig.com/
 [lispy]: https://norvig.com/lispy.html
