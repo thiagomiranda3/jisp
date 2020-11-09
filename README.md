@@ -19,7 +19,7 @@ As funcionalidades do Jisp são:
 
 ## Exemplos
 
-```clojure
+```scheme
 ; Soma
 (+ 1 2 3 4) => 10
 
