@@ -54,11 +54,11 @@ The features of Jisp are:
 ###  Invoking Java classes and methods
 
 ```scheme
-(define dados (new-object "java.util.HashMap" '()))
-(invoke dados "put" '("nome" "thiago"))
-(invoke dados "put" '("profissão" "programador"))
+(define person (new-object "java.util.HashMap" '()))
+(invoke person "put" '("name" "thiago"))
+(invoke person "put" '("profession" "programmer"))
 
-dados ==> {"nome": "thiago, "profissão": "programador"}
+person ==> {"name": "thiago", "profession": "programmer"}
 ```
 
 ### Function Composition
